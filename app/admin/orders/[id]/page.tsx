@@ -18,10 +18,13 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import EmailIcon from "@mui/icons-material/Email";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G";
+const JSONBIN_ID = "67daee698960c979a574d0ba";
+
 interface Order {
-    id: number;
+    id: string;
     email: string;
-    items: { id: number; name: string; quantity: number }[];
+    items: { id: number; title: string; quantity: number }[];
 }
 
 export default function OrderDetailsPage({ params }: { params: { id: string } }) {
@@ -33,10 +36,16 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
     useEffect(() => {
         const fetchOrder = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/orders/${params.id}`);
-                if (!res.ok) throw new Error("Order not found");
-                const data = await res.json();
-                setOrder(data);
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+                    headers: { "X-Master-Key": JSONBIN_API_KEY },
+                });
+
+                if (!response.ok) throw new Error("Order not found");
+                const data = await response.json();
+                const foundOrder = (data.record.orders || []).find((o) => o.id === params.id);
+
+                if (!foundOrder) throw new Error("Order not found");
+                setOrder(foundOrder);
             } catch (err) {
                 setError("Order not found or deleted.");
             } finally {
@@ -73,7 +82,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                     <List>
                         {order?.items?.map((item) => (
                             <ListItem key={item.id} sx={{ display: "flex", justifyContent: "space-between" }}>
-                                <ListItemText primary={item.name} secondary={`Quantity: ${item.quantity}`} />
+                                <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity}`} />
                             </ListItem>
                         ))}
                     </List>

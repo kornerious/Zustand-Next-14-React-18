@@ -1,46 +1,46 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "@/store/cartStore"; // ✅ Import Zustand cart store
-import { Container, Typography, Card, CardContent, Button, Grid } from "@mui/material"; // ✅ Fixed Grid import
+import { Container, Typography, Card, CardContent, Button, Box, Stack } from "@mui/material";
 
-// ✅ Define Product & CartItem Types
+// ✅ Define Product Type
 interface Product {
     id: number;
-    name: string;
+    title: string; // FakeStore uses "title" instead of "name"
     price: number;
+    image: string;
 }
 
-interface CartItem extends Product {
-    quantity: number; // ✅ Ensure `quantity` exists
+// ✅ Define CartItem Type (Ensure it has `name`)
+interface CartItem {
+    id: number;
+    name: string;
+    title: string;
+    price: number;
+    image: string;
+    quantity: number;
 }
 
 export default function ShopPage() {
-    const [products, setProducts] = useState<Product[]>([]); // ✅ Explicitly typed state
-    const { addToCart } = useCartStore(); // ✅ Get addToCart function
-    const router = useRouter(); // ✅ Used for redirection
+    const [products, setProducts] = useState<Product[]>([]);
+    const { addToCart } = useCartStore();
+    const router = useRouter();
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const res = await fetch("http://localhost:4000/shop");
-                if (!res.ok) throw new Error("Failed to fetch products");
-
-                const data: Product[] = await res.json();
-                setProducts(data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-
-        fetchProducts(); // ✅ Properly handling async function
+        fetch("https://fakestoreapi.com/products") // ✅ Using FakeStore API
+            .then((res) => res.json())
+            .then((data) => setProducts(data));
     }, []);
 
-    // ✅ Ensure `product` has `quantity` before adding to cart
     const handleAddToCart = (product: Product) => {
-        const cartItem: CartItem = { ...product, quantity: 1 }; // ✅ Add default quantity
+        const cartItem: CartItem = {
+            ...product,
+            name: product.title, // ✅ Assigning `name` since it's required in CartItem
+            quantity: 1, // ✅ Ensure product has a quantity field
+        };
         addToCart(cartItem);
-        router.push("/cart"); // ✅ Redirect to cart after adding
+        router.push("/cart"); // ✅ Redirect to cart after adding product
     };
 
     return (
@@ -48,13 +48,14 @@ export default function ShopPage() {
             <Typography variant="h3" gutterBottom>
                 Shop
             </Typography>
-            <Grid container spacing={3}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
                 {products.map((product) => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h5">{product.name}</Typography>
-                                <Typography variant="body1">${product.price}</Typography>
+                    <Card key={product.id} sx={{ width: 300, p: 2 }}>
+                        <CardContent>
+                            <img src={product.image} alt={product.title} width="100%" />
+                            <Typography variant="h5">{product.title}</Typography>
+                            <Typography variant="body1">${product.price}</Typography>
+                            <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -62,11 +63,11 @@ export default function ShopPage() {
                                 >
                                     Add to Cart
                                 </Button>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                            </Stack>
+                        </CardContent>
+                    </Card>
                 ))}
-            </Grid>
+            </Box>
         </Container>
     );
 }

@@ -1,23 +1,17 @@
 "use client";
 import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
-import { useOrderStore } from "@/store/orderStore";
 import { useRouter } from "next/navigation";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
+import { Container, Typography, TextField, Button, List, ListItem, ListItemText, CircularProgress } from "@mui/material";
 
-// Define types for CartItem and Order
+// ✅ Define CartItem & Order Types
 interface CartItem {
     id: number;
     name: string;
+    title: string; // ✅ Ensure `title` exists
     quantity: number;
     price: number;
+    image: string;
 }
 
 interface Order {
@@ -26,10 +20,12 @@ interface Order {
     items: CartItem[];
 }
 
+const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G"; // Replace with your JSONBin.io API key
+const JSONBIN_ID = "67daee698960c979a574d0ba"; // Replace with your JSONBin.io Bin ID
+
 export default function CheckoutPage() {
     const [email, setEmail] = useState("");
     const { items, clearCart } = useCartStore();
-    const { addOrder } = useOrderStore();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -48,41 +44,50 @@ export default function CheckoutPage() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:4000/orders", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, items }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to place order"); // ✅ Proper error handling
-            }
-
-            const orderId = self.crypto.randomUUID(); // ✅ Fix for UMD global variable issue
-
             const newOrder: Order = {
-                id: orderId,
+                id: crypto.randomUUID(),
                 email,
-                items,
+                items: items.map(item => ({
+                    id: item.id,
+                    name: item.title, // ✅ Assign `name` properly
+                    title: item.title, // ✅ Assign `title`
+                    price: item.price,
+                    quantity: item.quantity,
+                    image: item.image,
+                })),
             };
 
-            addOrder(newOrder);
+            // ✅ Fetch existing orders from JSONBin
+            const fetchResponse = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+                headers: { "X-Master-Key": JSONBIN_API_KEY },
+            });
+
+            const fetchData = await fetchResponse.json();
+            const updatedOrders = [...(fetchData.record.orders || []), newOrder];
+
+            // ✅ Update JSONBin with new orders array
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Master-Key": JSONBIN_API_KEY,
+                },
+                body: JSON.stringify({ orders: updatedOrders }),
+            });
+
+            if (!response.ok) throw new Error("Failed to place order");
+
             clearCart();
             router.push("/order-confirmation");
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-                console.error("Order submission error:", err.message);
-            } else {
-                setError("An unknown error occurred.");
-            }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Unknown error occurred.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <main>
+        <Container>
             <Typography variant="h3" gutterBottom>Checkout</Typography>
             {items.length === 0 ? (
                 <Typography>Your cart is empty. Please add items before proceeding.</Typography>
@@ -91,13 +96,13 @@ export default function CheckoutPage() {
                     <List>
                         {items.map((item) => (
                             <ListItem key={item.id}>
-                                <ListItemText primary={`${item.name} (x${item.quantity}) - $${item.price * item.quantity}`} />
+                                <ListItemText primary={`${item.title} (x${item.quantity}) - $${item.price * item.quantity}`} />
                             </ListItem>
                         ))}
                     </List>
                     <Typography variant="h6" sx={{ mt: 2 }}>Total Price: ${totalPrice}</Typography>
 
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+                    <form onSubmit={handleSubmit}>
                         <TextField
                             label="Email"
                             type="email"
@@ -111,9 +116,9 @@ export default function CheckoutPage() {
                         <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ mt: 2 }}>
                             {loading ? <CircularProgress size={24} /> : "Confirm Purchase"}
                         </Button>
-                    </Box>
+                    </form>
                 </>
             )}
-        </main>
+        </Container>
     );
 }
