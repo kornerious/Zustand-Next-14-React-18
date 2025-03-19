@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
     Container,
@@ -15,11 +16,15 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import EmailIcon from "@mui/icons-material/Email";
-import { useRouter } from "next/navigation";
+
+interface Order {
+    id: number;
+    email: string;
+    items: { id: number; name: string; quantity: number }[];
+}
 
 export default function AdminPage() {
     const [orders, setOrders] = useState<Order[]>([]);
-    const router = useRouter();
 
     useEffect(() => {
         fetch("http://localhost:4000/orders")
@@ -46,7 +51,7 @@ export default function AdminPage() {
                             <ListItem
                                 key={order.id}
                                 sx={{ cursor: "pointer" }}
-                                onClick={() => router.push(`/admin/orders/${order.id}`)}
+                                onClick={() => useRouter().push(`/admin/orders/${order.id}`)}
                             >
                                 <ListItemText primary={`Order #${order.id} - ${order.email}`} />
                             </ListItem>
