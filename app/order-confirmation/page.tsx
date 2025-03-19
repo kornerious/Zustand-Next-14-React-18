@@ -9,7 +9,6 @@ export default function OrderConfirmationPage() {
     const router = useRouter();
 
     useEffect(() => {
-
         setTimeout(() => router.push("/shop"), 5000); // Redirect after 5 sec
     }, [router]);
 

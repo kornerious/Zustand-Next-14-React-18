@@ -26,6 +26,7 @@ export const useOrderStore = create<OrderState>((set) => ({
             return { orders: newOrders };
         });
     },
+
     loadOrders: () => {
         if (typeof window !== "undefined") { // ✅ Ensure localStorage is accessed only in browser
             const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");

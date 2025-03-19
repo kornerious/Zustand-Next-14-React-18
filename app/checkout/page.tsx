@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// Define types for CartItem and Order
 interface CartItem {
     id: number;
     name: string;
@@ -68,7 +69,6 @@ export default function CheckoutPage() {
             addOrder(newOrder);
             clearCart();
             router.push("/order-confirmation");
-
         } catch (err: unknown) {
             if (err instanceof Error) {
                 setError(err.message);
