@@ -12,6 +12,20 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// Define types for CartItem and Order
+interface CartItem {
+    id: number;
+    name: string;
+    quantity: number;
+    price: number;
+}
+
+interface Order {
+    id: string;
+    email: string;
+    items: CartItem[];
+}
+
 export default function CheckoutPage() {
     const [email, setEmail] = useState("");
     const { items, clearCart } = useCartStore();
@@ -22,8 +36,9 @@ export default function CheckoutPage() {
 
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         if (items.length === 0) {
             alert("Your cart is empty!");
             return;
@@ -39,13 +54,28 @@ export default function CheckoutPage() {
                 body: JSON.stringify({ email, items }),
             });
 
-            if (!response.ok) throw new Error("Failed to place order");
+            if (!response.ok) {
+                throw new Error("Failed to place order"); // ✅ Proper error handling
+            }
 
-            addOrder({ email, items });
+            const orderId = self.crypto.randomUUID(); // ✅ Fix for UMD global variable issue
+
+            const newOrder: Order = {
+                id: orderId,
+                email,
+                items,
+            };
+
+            addOrder(newOrder);
             clearCart();
             router.push("/order-confirmation");
-        } catch (err) {
-            setError("Error placing order. Please try again.");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+                console.error("Order submission error:", err.message);
+            } else {
+                setError("An unknown error occurred.");
+            }
         } finally {
             setLoading(false);
         }
