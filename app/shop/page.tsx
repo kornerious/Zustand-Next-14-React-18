@@ -48,18 +48,43 @@ export default function ShopPage() {
             <Typography variant="h3" gutterBottom>
                 Shop
             </Typography>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3, justifyContent: "center" }}>
                 {products.map((product) => (
-                    <Card key={product.id} sx={{ width: 300, p: 2 }}>
-                        <CardContent>
-                            <img src={product.image} alt={product.title} width="100%" />
-                            <Typography variant="h5">{product.title}</Typography>
-                            <Typography variant="body1">${product.price}</Typography>
-                            <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+                    <Card
+                        key={product.id}
+                        sx={{
+                            width: 300,
+                            height: 450, // ✅ Ensures all cards have the same height
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between", // ✅ Distributes content evenly
+                            p: 2,
+                            boxShadow: 3
+                        }}
+                    >
+                        {/* ✅ Image Container: Fixed size & consistent cropping */}
+                        <Box sx={{ width: "100%", height: 200, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <img
+                                src={product.image}
+                                alt={product.title}
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }} // ✅ Ensures all images fit nicely
+                            />
+                        </Box>
+
+                        {/* ✅ Product Details */}
+                        <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                            <Typography variant="h6" sx={{ flexGrow: 1, mb: 1 }}>
+                                {product.title}
+                            </Typography>
+                            <Typography variant="body1" sx={{ mb: 2 }}>${product.price}</Typography>
+
+                            {/* ✅ Add to Cart Button Always at Bottom */}
+                            <Stack direction="row" justifyContent="center" sx={{ mt: "auto" }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={() => handleAddToCart(product)}
+                                    sx={{ width: "100%" }} // ✅ Ensures full-width button
                                 >
                                     Add to Cart
                                 </Button>
