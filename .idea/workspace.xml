@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9d4e552-f8df-49f7-9d59-efb49136d2f7" name="Changes" comment="Zustand, Next 14, React-18, MUI, SQL Lite, Typescript" />
+    <list default="true" id="c9d4e552-f8df-49f7-9d59-efb49136d2f7" name="Changes" comment="Zustand, Next 14, React-18, MUI, SQL Lite, Typescript">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="632e71dd-8d85-4e16-b755-416b366ac1a6" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -46,6 +51,7 @@
     "npm.dev.executor": "Run",
     "npm.start (1).executor": "Run",
     "npm.start.executor": "Run",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "ts.external.directory.path": "/Users/alex/Downloads/Interview/Zustand-Next-14-React-18/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -131,7 +137,7 @@
       <workItem from="1741987834814" duration="5700000" />
       <workItem from="1742147387481" duration="5594000" />
       <workItem from="1742221821412" duration="50000" />
-      <workItem from="1742221886371" duration="21135000" />
+      <workItem from="1742221886371" duration="21790000" />
     </task>
     <task id="LOCAL-00001" summary="Zustand, Next 14, React-18, MUI, SQL Lite, Typescript">
       <option name="closed" value="true" />
@@ -141,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742381997505</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Zustand, Next 14, React-18, MUI, SQL Lite, Typescript">
+      <option name="closed" value="true" />
+      <created>1742382553568</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742382553568</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
