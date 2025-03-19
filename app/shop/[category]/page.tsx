@@ -8,6 +8,7 @@ import ProductCard from "../../../components/ProductCard";
 interface Product {
     id: number;
     name: string;
+    price: number; // ✅ Ensure price exists
 }
 
 export default function CategoryPage() {
@@ -38,7 +39,7 @@ export default function CategoryPage() {
             <Grid container spacing={2}>  {/* ✅ Standard Grid */}
                 {products.map((product) => (
                     <Grid item key={product.id} xs={12} sm={6} md={4}>
-                        <ProductCard id={product.id} name={product.name} />
+                        <ProductCard id={product.id} name={product.name} price={product.price} /> {/* ✅ Pass price */}
                     </Grid>
                 ))}
             </Grid>
