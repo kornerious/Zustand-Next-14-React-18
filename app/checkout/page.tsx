@@ -4,11 +4,11 @@ import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { Container, Typography, TextField, Button, List, ListItem, ListItemText, CircularProgress } from "@mui/material";
 
-// ✅ Define CartItem & Order Types
+// ✅ Define CartItem & Order Types (Fixed)
 interface CartItem {
     id: number;
-    name: string;
-    title: string; // ✅ Ensure `title` exists
+    name: string; // ✅ FakeStore API uses `title`, mapping to `name`
+    title: string; // ✅ Ensure `title` exists for UI
     quantity: number;
     price: number;
     image: string;
@@ -20,6 +20,7 @@ interface Order {
     items: CartItem[];
 }
 
+// ✅ JSONBin API Credentials
 const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G"; // Replace with your JSONBin.io API key
 const JSONBIN_ID = "67daee698960c979a574d0ba"; // Replace with your JSONBin.io Bin ID
 
@@ -49,8 +50,8 @@ export default function CheckoutPage() {
                 email,
                 items: items.map(item => ({
                     id: item.id,
-                    name: item.title, // ✅ Assign `name` properly
-                    title: item.title, // ✅ Assign `title`
+                    name: item.title, // ✅ FakeStore uses `title`, mapping to `name`
+                    title: item.title, // ✅ Ensure UI displays `title`
                     price: item.price,
                     quantity: item.quantity,
                     image: item.image,

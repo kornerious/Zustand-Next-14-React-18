@@ -19,10 +19,17 @@ import EmailIcon from "@mui/icons-material/Email";
 const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G";
 const JSONBIN_ID = "67daee698960c979a574d0ba";
 
+// ✅ Define Order & Item Types (Fix TypeScript Errors)
+interface OrderItem {
+    id: number;
+    title: string;
+    quantity: number;
+}
+
 interface Order {
     id: string;
     email: string;
-    items: { id: number; title: string; quantity: number }[];
+    items: OrderItem[];
 }
 
 export default function AdminPage() {
@@ -39,7 +46,7 @@ export default function AdminPage() {
 
                 if (!response.ok) throw new Error("Failed to fetch orders");
                 const data = await response.json();
-                const validOrders = (data.record.orders || []).filter(order => order.items && Array.isArray(order.items));
+                const validOrders: Order[] = (data.record.orders || []).filter((order: any) => order.items && Array.isArray(order.items));
                 setOrders(validOrders);
             } catch (error) {
                 console.error("Error fetching orders:", error);
@@ -78,11 +85,10 @@ export default function AdminPage() {
             {orders.length === 0 ? (
                 <Typography sx={{ textAlign: "center", mt: 5 }}>No orders yet.</Typography>
             ) : (
-                orders.map((order) => (
+                orders.map((order: Order) => ( // ✅ Explicitly typed order to fix TS7006
                     <Card key={order.id} sx={{ mb: 2, p: 2, boxShadow: 3 }}>
                         <CardContent>
                             <ListItem
-                                key={order.id}
                                 sx={{ cursor: "pointer" }}
                                 onClick={() => router.push(`/admin/orders/${order.id}`)}
                             >
@@ -97,7 +103,7 @@ export default function AdminPage() {
                             </Typography>
                             <Divider sx={{ my: 1 }} />
                             <List>
-                                {order.items?.map((item) => (
+                                {order.items?.map((item: OrderItem) => ( // ✅ Explicitly typed item
                                     <ListItem
                                         key={item.id}
                                         sx={{ display: "flex", justifyContent: "space-between" }}

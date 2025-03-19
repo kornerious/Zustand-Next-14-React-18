@@ -42,7 +42,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
 
                 if (!response.ok) throw new Error("Order not found");
                 const data = await response.json();
-                const foundOrder = (data.record.orders || []).find((o) => o.id === params.id);
+                const foundOrder = (data.record.orders || []).find((o: { id: string; }) => o.id === params.id);
 
                 if (!foundOrder) throw new Error("Order not found");
                 setOrder(foundOrder);
