@@ -1,7 +1,7 @@
 "use client";
 
-import { usePeopleStore } from "@/app/_zustand/store";
 import React, { FormEvent, useState } from "react";
+import {usePeopleStore} from "@/store/store";
 
 const Input = () => {
   const { addPerson, disableEditMode, editMode, editPerson } = usePeopleStore();

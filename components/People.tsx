@@ -1,6 +1,6 @@
 "use client";
 
-import { Person, usePeopleStore } from "@/app/_zustand/store";
+import { Person, usePeopleStore } from "@/store/store";
 import React from "react";
 
 const People = () => {
