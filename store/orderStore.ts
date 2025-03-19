@@ -13,18 +13,24 @@ interface OrderState {
 }
 
 export const useOrderStore = create<OrderState>((set) => ({
-    orders: JSON.parse(localStorage.getItem("orders") || "[]"), // Load from localStorage on init
+    orders: [], // ✅ Initialize with empty array to avoid server-side issues
 
     addOrder: (order) => {
         set((state) => {
             const newOrders = [...state.orders, order];
-            localStorage.setItem("orders", JSON.stringify(newOrders)); // Save to localStorage
+
+            if (typeof window !== "undefined") { // ✅ Ensure browser environment
+                localStorage.setItem("orders", JSON.stringify(newOrders));
+            }
+
             return { orders: newOrders };
         });
     },
 
     loadOrders: () => {
-        const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
-        set({ orders: storedOrders });
+        if (typeof window !== "undefined") { // ✅ Ensure localStorage is accessed only in browser
+            const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
+            set({ orders: storedOrders });
+        }
     },
 }));
