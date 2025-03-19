@@ -1,6 +1,16 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
   "routes": [
-    { "src": "/(.*)", "dest": "/vercel.ts" }
-  ]
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "ignoreCommand": "git check-ignore -q backend/**"
 }
