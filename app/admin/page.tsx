@@ -32,6 +32,8 @@ export default function AdminPage() {
             .then((data) => (Array.isArray(data) ? setOrders(data) : setOrders([])));
     }, []);
 
+    const router = useRouter();
+
     const handleDeleteOrder = async (id: number) => {
         await fetch(`http://localhost:4000/orders/${id}`, { method: "DELETE" });
         setOrders(orders.filter((order) => order.id !== id));
@@ -51,7 +53,7 @@ export default function AdminPage() {
                             <ListItem
                                 key={order.id}
                                 sx={{ cursor: "pointer" }}
-                                onClick={() => useRouter().push(`/admin/orders/${order.id}`)}
+                                onClick={() => router.push(`/admin/orders/${order.id}`)}
                             >
                                 <ListItemText primary={`Order #${order.id} - ${order.email}`} />
                             </ListItem>
