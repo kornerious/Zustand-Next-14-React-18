@@ -39,7 +39,7 @@ export default function CategoryPage() {
             <Grid container spacing={2}>  {/* ✅ Standard Grid */}
                 {products.map((product) => (
                     <Grid item key={product.id} xs={12} sm={6} md={4}>
-                        <ProductCard id={product.id} name={product.name} price={product.price} /> {/* ✅ Pass price */}
+                        <ProductCard product={product} />
                     </Grid>
                 ))}
             </Grid>
