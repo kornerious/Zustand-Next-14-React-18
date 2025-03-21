@@ -4,11 +4,10 @@ import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { Container, Typography, TextField, Button, List, ListItem, ListItemText, CircularProgress } from "@mui/material";
 
-// ✅ Define CartItem & Order Types (Fixed)
+// ✅ Define CartItem & Order Types
 interface CartItem {
     id: number;
-    name: string; // ✅ FakeStore API uses `title`, mapping to `name`
-    title: string; // ✅ Ensure `title` exists for UI
+    title: string;
     quantity: number;
     price: number;
     image: string;
@@ -21,8 +20,8 @@ interface Order {
 }
 
 // ✅ JSONBin API Credentials
-const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G"; // Replace with your JSONBin.io API key
-const JSONBIN_ID = "67daee698960c979a574d0ba"; // Replace with your JSONBin.io Bin ID
+const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G";
+const JSONBIN_ID = "67daee698960c979a574d0ba";
 
 export default function CheckoutPage() {
     const [email, setEmail] = useState("");
@@ -50,30 +49,35 @@ export default function CheckoutPage() {
                 email,
                 items: items.map(item => ({
                     id: item.id,
-                    name: item.title, // ✅ FakeStore uses `title`, mapping to `name`
-                    title: item.title, // ✅ Ensure UI displays `title`
+                    title: item.title,
                     price: item.price,
                     quantity: item.quantity,
                     image: item.image,
                 })),
             };
 
-            // ✅ Fetch existing orders from JSONBin
+            // ✅ Fetch existing data from JSONBin (orders + products)
             const fetchResponse = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
                 headers: { "X-Master-Key": JSONBIN_API_KEY },
             });
 
+            if (!fetchResponse.ok) throw new Error("Failed to fetch existing data");
+
             const fetchData = await fetchResponse.json();
+            const existingProducts = fetchData.record.products || []; // ✅ Preserve products
             const updatedOrders = [...(fetchData.record.orders || []), newOrder];
 
-            // ✅ Update JSONBin with new orders array
+            // ✅ Update JSONBin with BOTH orders & products to prevent deletion
             const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "X-Master-Key": JSONBIN_API_KEY,
                 },
-                body: JSON.stringify({ orders: updatedOrders }),
+                body: JSON.stringify({
+                    products: existingProducts, // ✅ Preserve products
+                    orders: updatedOrders
+                }),
             });
 
             if (!response.ok) throw new Error("Failed to place order");

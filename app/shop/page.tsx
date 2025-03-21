@@ -7,40 +7,53 @@ import { Container, Typography, Card, CardContent, Button, Box, Stack } from "@m
 // ✅ Define Product Type
 interface Product {
     id: number;
-    title: string; // FakeStore uses "title" instead of "name"
+    title: string;
     price: number;
     image: string;
 }
 
-// ✅ Define CartItem Type (Ensure it has `name`)
-interface CartItem {
-    id: number;
+// ✅ Define CartItem Type
+interface CartItem extends Product {
     name: string;
-    title: string;
-    price: number;
-    image: string;
     quantity: number;
 }
+
+// ✅ JSONBin.io API Config
+const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G"; // Replace with your API key
+const JSONBIN_ID = "67daee698960c979a574d0ba"; // Replace with your Bin ID
 
 export default function ShopPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const { addToCart } = useCartStore();
     const router = useRouter();
-
+const prod =
     useEffect(() => {
-        fetch("https://fakestoreapi.com/products") // ✅ Using FakeStore API
-            .then((res) => res.json())
-            .then((data) => setProducts(data));
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+                    headers: { "X-Master-Key": JSONBIN_API_KEY },
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch products");
+
+                const data = await response.json();
+                setProducts(data.record.products || []); // ✅ Ensure proper data structure
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
     }, []);
 
     const handleAddToCart = (product: Product) => {
         const cartItem: CartItem = {
             ...product,
-            name: product.title, // ✅ Assigning `name` since it's required in CartItem
-            quantity: 1, // ✅ Ensure product has a quantity field
+            name: product.title,
+            quantity: 1,
         };
         addToCart(cartItem);
-        router.push("/cart"); // ✅ Redirect to cart after adding product
+        router.push("/cart");
     };
 
     return (
@@ -54,10 +67,10 @@ export default function ShopPage() {
                         key={product.id}
                         sx={{
                             width: 300,
-                            height: 450, // ✅ Ensures all cards have the same height
+                            height: 450,
                             display: "flex",
                             flexDirection: "column",
-                            justifyContent: "space-between", // ✅ Distributes content evenly
+                            justifyContent: "space-between",
                             p: 2,
                             boxShadow: 3
                         }}
@@ -84,7 +97,7 @@ export default function ShopPage() {
                                     variant="contained"
                                     color="primary"
                                     onClick={() => handleAddToCart(product)}
-                                    sx={{ width: "100%" }} // ✅ Ensures full-width button
+                                    sx={{ width: "100%" }}
                                 >
                                     Add to Cart
                                 </Button>
@@ -96,3 +109,4 @@ export default function ShopPage() {
         </Container>
     );
 }
+

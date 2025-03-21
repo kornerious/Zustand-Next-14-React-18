@@ -19,11 +19,12 @@ import EmailIcon from "@mui/icons-material/Email";
 const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G";
 const JSONBIN_ID = "67daee698960c979a574d0ba";
 
-// ✅ Define Order & Item Types (Fix TypeScript Errors)
+// ✅ Define Order & Item Types
 interface OrderItem {
     id: number;
     title: string;
     quantity: number;
+    image: string;
 }
 
 interface Order {
@@ -36,41 +37,48 @@ export default function AdminPage() {
     const [orders, setOrders] = useState<Order[]>([]);
     const router = useRouter();
 
-    // ✅ Fetch Orders from JSONBin
+    // ✅ Fetch Entire JSONBin (Products + Orders)
     useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
-                    headers: { "X-Master-Key": JSONBIN_API_KEY },
-                });
-
-                if (!response.ok) throw new Error("Failed to fetch orders");
-                const data = await response.json();
-                const validOrders: Order[] = (data.record.orders || []).filter((order: any) => order.items && Array.isArray(order.items));
-                setOrders(validOrders);
-            } catch (error) {
-                console.error("Error fetching orders:", error);
-            }
-        };
-
-        fetchOrders();
+        fetchData();
     }, []);
 
-    // ✅ Handle Order Deletion
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+                headers: { "X-Master-Key": JSONBIN_API_KEY },
+            });
+
+            if (!response.ok) throw new Error("Failed to fetch data");
+            const data = await response.json();
+
+            setOrders(data.record.orders || []);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    // ✅ Delete Order (Preserve Products)
     const handleDeleteOrder = async (orderId: string) => {
         try {
-            const updatedOrders = orders.filter((order) => order.id !== orderId);
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+                headers: { "X-Master-Key": JSONBIN_API_KEY },
+            });
 
-            const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+            if (!response.ok) throw new Error("Failed to fetch latest data");
+
+            const data = await response.json();
+            const updatedOrders = data.record.orders.filter((order: Order) => order.id !== orderId);
+
+            // ✅ Save back with preserved products
+            await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "X-Master-Key": JSONBIN_API_KEY,
                 },
-                body: JSON.stringify({ orders: updatedOrders }),
+                body: JSON.stringify({ products: data.record.products, orders: updatedOrders }),
             });
 
-            if (!response.ok) throw new Error("Failed to delete order");
             setOrders(updatedOrders);
         } catch (error) {
             console.error("Error deleting order:", error);
@@ -85,13 +93,10 @@ export default function AdminPage() {
             {orders.length === 0 ? (
                 <Typography sx={{ textAlign: "center", mt: 5 }}>No orders yet.</Typography>
             ) : (
-                orders.map((order: Order) => ( // ✅ Explicitly typed order to fix TS7006
+                orders.map((order) => (
                     <Card key={order.id} sx={{ mb: 2, p: 2, boxShadow: 3 }}>
                         <CardContent>
-                            <ListItem
-                                sx={{ cursor: "pointer" }}
-                                onClick={() => router.push(`/admin/orders/${order.id}`)}
-                            >
+                            <ListItem sx={{ cursor: "pointer" }} onClick={() => router.push(`/admin/orders/${order.id}`)}>
                                 <ListItemText primary={`Order #${order.id} - ${order.email}`} />
                             </ListItem>
                             <Typography
@@ -103,15 +108,9 @@ export default function AdminPage() {
                             </Typography>
                             <Divider sx={{ my: 1 }} />
                             <List>
-                                {order.items?.map((item: OrderItem) => ( // ✅ Explicitly typed item
-                                    <ListItem
-                                        key={item.id}
-                                        sx={{ display: "flex", justifyContent: "space-between" }}
-                                    >
-                                        <ListItemText
-                                            primary={item.title}
-                                            secondary={`Quantity: ${item.quantity}`}
-                                        />
+                                {order.items.map((item) => (
+                                    <ListItem key={item.id} sx={{ display: "flex", justifyContent: "space-between" }}>
+                                        <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity}`} />
                                         <IconButton color="error" onClick={() => handleDeleteOrder(order.id)}>
                                             <DeleteIcon />
                                         </IconButton>
