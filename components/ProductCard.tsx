@@ -2,7 +2,7 @@
 import { useCartStore, CartItem } from "@/store/cartStore";
 import { Card, CardContent, Typography, Button, Box, Stack, Snackbar, Alert } from "@mui/material";
 import { useState, memo } from "react";
-import Image from "next/image";  // ✅ Use Next.js Image component
+import Image from "next/image"; // ✅ Import next/image
 
 // ✅ Define Product Type
 interface Product {
@@ -41,13 +41,14 @@ const ProductCard = memo(({ product }: ProductCardProps) => {
     return (
         <>
             <Card sx={{ width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
-                <Box sx={{ width: "100%", height: "200px", position: "relative", mx: "auto" }}>
+                <Box sx={{ width: "100%", height: "200px", overflow: "hidden", mx: "auto" }}>
                     <Image
                         src={product.image}
                         alt={product.title}
-                        layout="fill"
-                        objectFit="cover"
-                        priority={true}
+                        width={250} // ✅ Control image size to reduce bandwidth
+                        height={200}
+                        style={{ objectFit: "cover" }}
+                        quality={50} // ✅ Reduce image quality for optimization
                     />
                 </Box>
 
@@ -77,6 +78,6 @@ const ProductCard = memo(({ product }: ProductCardProps) => {
     );
 });
 
-ProductCard.displayName = "ProductCard"; // ✅ Adding display name for ESLint compliance
+ProductCard.displayName = "ProductCard"; // ✅ Set display name to avoid warning
 
 export default ProductCard;
