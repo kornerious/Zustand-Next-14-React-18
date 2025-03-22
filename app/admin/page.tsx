@@ -10,8 +10,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import { throttle } from "@/src/utils";
 
 // JSONBin Config
-const JSONBIN_API_KEY = "$2a$10$8F5qQQoWq49Gn.v4zEbZFuSv8bfY2XOXHGqRPI8Efnb5tZEZnf53G";
-const JSONBIN_ID = "67daee698960c979a574d0ba";
+const JSONBIN_API_KEY = process.env.NEXT_PUBLIC_JSONBIN_API_KEY || "";
+const JSONBIN_ID = process.env.NEXT_PUBLIC_JSONBIN_ID || "";
 
 interface OrderItem {
     id: number;
