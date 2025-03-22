@@ -49,7 +49,7 @@ export default function CheckoutPage() {
                 email,
                 items: items.map(item => ({
                     id: item.id,
-                    title: item.title,
+                    title: item.title || item.name,  // ✅ Use `item.name` if `item.title` is missing
                     price: item.price,
                     quantity: item.quantity,
                     image: item.image,
@@ -75,7 +75,7 @@ export default function CheckoutPage() {
                     "X-Master-Key": JSONBIN_API_KEY,
                 },
                 body: JSON.stringify({
-                    products: existingProducts, // ✅ Preserve products
+                    products: existingProducts,
                     orders: updatedOrders
                 }),
             });
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
                     <List>
                         {items.map((item) => (
                             <ListItem key={item.id}>
-                                <ListItemText primary={`${item.title} (x${item.quantity}) - $${item.price * item.quantity}`} />
+                                <ListItemText primary={`${item.title || item.name} (x${item.quantity}) - $${item.price * item.quantity}`} />
                             </ListItem>
                         ))}
                     </List>
