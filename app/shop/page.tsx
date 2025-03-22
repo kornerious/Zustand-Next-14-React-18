@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
-import { Container, Typography, Card, CardContent, Button, Box, Stack } from "@mui/material";
+import {Container, Typography, Card, CardContent, Button, Box, Stack, Grid} from "@mui/material";
+import ProductCard from "@/components/ProductCard";
 
 // ✅ Define Product Type
 interface Product {
@@ -63,47 +64,9 @@ const prod =
             </Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3, justifyContent: "center" }}>
                 {products.map((product) => (
-                    <Card
-                        key={product.id}
-                        sx={{
-                            width: 300,
-                            height: 450,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            p: 2,
-                            boxShadow: 3
-                        }}
-                    >
-                        {/* ✅ Image Container: Fixed size & consistent cropping */}
-                        <Box sx={{ width: "100%", height: 200, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <img
-                                src={product.image}
-                                alt={product.title}
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }} // ✅ Ensures all images fit nicely
-                            />
-                        </Box>
-
-                        {/* ✅ Product Details */}
-                        <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                            <Typography variant="h6" sx={{ flexGrow: 1, mb: 1 }}>
-                                {product.title}
-                            </Typography>
-                            <Typography variant="body1" sx={{ mb: 2 }}>${product.price}</Typography>
-
-                            {/* ✅ Add to Cart Button Always at Bottom */}
-                            <Stack direction="row" justifyContent="center" sx={{ mt: "auto" }}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => handleAddToCart(product)}
-                                    sx={{ width: "100%" }}
-                                >
-                                    Add to Cart
-                                </Button>
-                            </Stack>
-                        </CardContent>
-                    </Card>
+                    <Grid item key={product.id} xs={12} sm={6} md={4}>
+                        <ProductCard product={product} />
+                    </Grid>
                 ))}
             </Box>
         </Container>

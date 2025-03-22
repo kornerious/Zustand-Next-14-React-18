@@ -1,6 +1,7 @@
 "use client";
-import { useCartStore } from "@/store/cartStore";
-import { Card, CardContent, Typography, Button, Box, Stack } from "@mui/material";
+import { useCartStore, CartItem } from "@/store/cartStore";
+import { Card, CardContent, Typography, Button, Box, Stack, Snackbar, Alert } from "@mui/material";
+import { useState, memo } from "react";
 
 // ✅ Define Product Type
 interface Product {
@@ -15,41 +16,62 @@ interface ProductCardProps {
     product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
-    const { addToCart } = useCartStore();
+const ProductCard = memo(({ product }: ProductCardProps) => {
+    const addToCart = useCartStore((state) => state.addToCart);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+    // ✅ Handle add to cart with feedback
     const handleAddToCart = () => {
-        addToCart({ ...product, name: product.title, quantity: 1 });
+        addToCart({
+            id: product.id,
+            name: product.title,
+            title: product.title,
+            image: product.image,
+            price: product.price,
+            quantity: 1,
+        } as CartItem);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     return (
-        <Card sx={{ width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
-            {/* ✅ Fixed Image Container (Same Size for All) */}
-            <Box sx={{ width: "100%", height: "200px", overflow: "hidden", mx: "auto" }}>
-                <img
-                    src={product.image}
-                    alt={product.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }} // ✅ Ensures all images fit nicely
-                />
-            </Box>
+        <>
+            <Card sx={{ width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
+                <Box sx={{ width: "100%", height: "200px", overflow: "hidden", mx: "auto" }}>
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                </Box>
 
-            {/* ✅ Product Details */}
-            <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <Typography variant="h6" sx={{ mt: 2 }}>{product.title}</Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>${product.price}</Typography>
+                <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <Typography variant="h6" sx={{ mt: 2 }}>
+                        {product.title}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                        ${product.price}
+                    </Typography>
 
-                {/* ✅ Add to Cart Button Always at Bottom */}
-                <Stack direction="row" justifyContent="center">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleAddToCart}
-                        sx={{ mt: "auto" }} // ✅ Ensures button stays at bottom
-                    >
-                        Add to Cart
-                    </Button>
-                </Stack>
-            </CardContent>
-        </Card>
+                    <Stack direction="row" justifyContent="center">
+                        <Button variant="contained" color="primary" onClick={handleAddToCart} sx={{ mt: "auto" }}>
+                            Add to Cart
+                        </Button>
+                    </Stack>
+                </CardContent>
+            </Card>
+
+            {/* ✅ Snackbar Notification */}
+            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={handleSnackbarClose}>
+                <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                    Added "{product.title}" to cart!
+                </Alert>
+            </Snackbar>
+        </>
     );
-}
+});
+
+export default ProductCard;
