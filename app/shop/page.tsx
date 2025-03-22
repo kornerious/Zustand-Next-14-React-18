@@ -7,8 +7,6 @@ const JSONBIN_ID = process.env.NEXT_PUBLIC_JSONBIN_ID || "";
 
 // ✅ Fetch Products
 async function fetchProducts() {
-    console.log("API Key:", JSONBIN_API_KEY);
-    console.log("Bin ID:", JSONBIN_ID);
     try {
         const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
             method: "GET",
