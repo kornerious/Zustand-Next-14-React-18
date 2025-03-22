@@ -66,13 +66,6 @@ export default function Navbar() {
             }}
         >
             <Toolbar>
-                <Button component={Link} href="/" sx={{ color: theme.palette.text.primary }}>
-                    Home
-                </Button>
-                <Button component={Link} href="/shop" sx={{ color: theme.palette.text.primary }}>
-                    Shop
-                </Button>
-
                 {/* Shop Categories Dropdown */}
                 <IconButton
                     onClick={handleMenuOpen}
@@ -97,6 +90,10 @@ export default function Navbar() {
                         </MenuItem>
                     ))}
                 </Menu>
+
+                <Button component={Link} href="/shop" sx={{ color: theme.palette.text.primary }}>
+                    Shop
+                </Button>
 
                 <Button component={Link} href="/cart" sx={{ color: theme.palette.text.primary }}>
                     Cart
