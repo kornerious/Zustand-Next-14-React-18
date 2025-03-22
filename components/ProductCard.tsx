@@ -2,6 +2,7 @@
 import { useCartStore, CartItem } from "@/store/cartStore";
 import { Card, CardContent, Typography, Button, Box, Stack, Snackbar, Alert } from "@mui/material";
 import { useState, memo } from "react";
+import Image from "next/image";  // ✅ Use Next.js Image component
 
 // ✅ Define Product Type
 interface Product {
@@ -40,11 +41,13 @@ const ProductCard = memo(({ product }: ProductCardProps) => {
     return (
         <>
             <Card sx={{ width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
-                <Box sx={{ width: "100%", height: "200px", overflow: "hidden", mx: "auto" }}>
-                    <img
+                <Box sx={{ width: "100%", height: "200px", position: "relative", mx: "auto" }}>
+                    <Image
                         src={product.image}
                         alt={product.title}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        layout="fill"
+                        objectFit="cover"
+                        priority={true}
                     />
                 </Box>
 
@@ -67,11 +70,13 @@ const ProductCard = memo(({ product }: ProductCardProps) => {
             {/* ✅ Snackbar Notification */}
             <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={handleSnackbarClose}>
                 <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                    Added "{product.title}" to cart!
+                    Added &quot;{product.title}&quot; to cart!
                 </Alert>
             </Snackbar>
         </>
     );
 });
+
+ProductCard.displayName = "ProductCard"; // ✅ Adding display name for ESLint compliance
 
 export default ProductCard;
