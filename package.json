@@ -6,7 +6,11 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "storybook:build": "nx run mui:build-storybook",
+        "storybook:dev": "nx run mui:storybook",
+        "prepare": "husky install .husky",
+        "mui:test": "nx test mui"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
