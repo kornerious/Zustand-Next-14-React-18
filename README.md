@@ -1,7 +1,4 @@
-# NextJS14 and Zustand CRUD App Boilerplate
-
-![crud zustand](https://github.com/Kuzma02/Zustand-NextJS14-CRUD-Boilerplate-In-JS/assets/138793624/2e048766-0d3f-41e1-93be-13cd8716a135)
-
+# NextJS14 and Zustand App 
 # Overview
 
 This is a comprehensive boilerplate for building a modern, performant CRUD (Create, Read, Update, Delete) application using Next.js and Zustand. Whether you're a beginner looking to kickstart your project or an experienced developer seeking a solid foundation, this boilerplate provides a structured setup with essential features to accelerate your development process.
