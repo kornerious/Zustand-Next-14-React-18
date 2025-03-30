@@ -1,3 +1,195 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx", "@typescript-eslint", "react", "react-hooks"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "legacyDecorators": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "globals": {
+    "React": true,
+    "eventSystem": true,
+    "process": true,
+    "logger": true,
+    "dataLayer": true,
+    "DY": true,
+    "DYO": true,
+    "amazon": true,
+    "paypal": true,
+    "braintree": true,
+    "affirm": true,
+    "Five9SocialWidget": true,
+    "Five9ChatPlugin": true,
+    "Five9ChatSetVariable": true,
+    "Five9ChatSetOption": true,
+    "Five9ChatConfirmEnd": true,
+    "Five9ChatCancelEnd": true,
+    "Acima": true,
+    "google": true,
+    "grecaptcha": true,
+    "require": true,
+    "JSX": true,
+    "_affirm_config": true,
+    "Splitit": true,
+    "splititPaymentFormLoader": true,
+    "acsbJS": true,
+    "__webpack_public_path__": true,
+    "NodeJS": true,
+    "globalThis": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "18.2.0"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"]
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true,
+        "node": true
+      },
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:storybook/recommended"
+      ],
+      "rules": {
+        "no-unused-vars": "warn",
+        "react/prop-types": 0,
+        "no-debugger": 2,
+        "no-console": 2,
+        "no-empty": 0,
+        "react/display-name": [
+          0,
+          {
+            "ignoreTranspilerName": true
+          }
+        ],
+        "import/extensions": 0,
+        "indent": [
+          "error",
+          4,
+          {
+            "SwitchCase": 1
+          }
+        ],
+        "linebreak-style": 0,
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/no-unknown-property": [
+          "error",
+          {
+            "ignore": ["styleName"]
+          }
+        ],
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/no-this-alias": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "typeAlias",
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "interface",
+            "format": ["PascalCase"]
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": 0,
+        "object-curly-spacing": ["error", "always"]
+      },
+      "globals": {
+        "React": true,
+        "eventSystem": true,
+        "process": true,
+        "logger": true,
+        "dataLayer": true,
+        "DY": true,
+        "DYO": true,
+        "amazon": true,
+        "paypal": true,
+        "braintree": true,
+        "affirm": true,
+        "Five9SocialWidget": true,
+        "Five9ChatPlugin": true,
+        "Five9ChatSetVariable": true,
+        "Five9ChatGetVariable": true,
+        "Five9ChatSetOption": true,
+        "Five9ChatConfirmEnd": true,
+        "Five9ChatCancelEnd": true,
+        "Acima": true,
+        "google": true,
+        "grecaptcha": true,
+        "require": true,
+        "JSX": true,
+        "_affirm_config": true,
+        "Splitit": true,
+        "splititPaymentFormLoader": true,
+        "acsbJS": true,
+        "__webpack_public_path__": true,
+        "NodeJS": true,
+        "globalThis": true
+      },
+      "plugins": ["@nx", "@typescript-eslint", "react", "react-hooks"],
+      "parserOptions": {
+        "ecmaFeatures": {
+          "experimentalObjectRestSpread": true,
+          "legacyDecorators": true,
+          "jsx": true
+        },
+        "sourceType": "module"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {
+        "react/prop-types": 0
+      }
+    },
+    {
+      "files": ["*.json"],
+      "extends": [],
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": 0
+      }
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true,
+        "node": true
+      }
+    }
+  ]
 }

@@ -1,0 +1,5 @@
+node_modules
+dist/*
+e2e_tests_and_monitoring/*
+e2e_tests_and_monitoring_old/*
+README.md
