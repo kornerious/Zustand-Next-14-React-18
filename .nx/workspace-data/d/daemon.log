@@ -131,3 +131,33 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
 [NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
 [NX Daemon Server] - 2025-03-30T21:29:03.408Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"
+[NX Daemon Server] - 2025-03-30T21:29:59.583Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX Daemon Server] - 2025-03-30T21:29:59.584Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX Daemon Server] - 2025-03-30T21:29:59.586Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:29:59.586Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-03-30T21:29:59.587Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:29:59.587Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-03-30T21:29:59.672Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-03-30T21:29:59.672Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T21:29:59.672Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T21:29:59.676Z - Time taken for 'loadNxPlugins' 84.069333ms
+[NX Daemon Server] - 2025-03-30T21:29:59.698Z - Time taken for 'build-project-configs' 13.180916999999994ms
+[NX Daemon Server] - 2025-03-30T21:29:59.734Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-03-30T21:29:59.734Z - [SYNC]: scheduling: []
+[NX Daemon Server] - 2025-03-30T21:29:59.735Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-03-30T21:29:59.735Z - Time taken for 'total for creating and serializing project graph' 147.240958ms
+[NX Daemon Server] - 2025-03-30T21:29:59.739Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-03-30T21:29:59.739Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 148. Response time: 4.
+[NX Daemon Server] - 2025-03-30T21:29:59.741Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:29:59.741Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:29:59.741Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:29:59.741Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:29:59.742Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:29:59.742Z - Done responding to the client handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:29:59.742Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-03-30T21:30:30.404Z - [WATCHER]: .gitignore was modified
+[NX Daemon Server] - 2025-03-30T21:30:30.404Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:30:30.404Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:30:30.406Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX Daemon Server] - 2025-03-30T21:30:30.406Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX Daemon Server] - 2025-03-30T21:30:30.408Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"
