@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grid should match snapshot for brand Awara with default on desktop 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand Awara with default on mobile 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand Cloverlane with default on desktop 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand Cloverlane with default on mobile 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand DreamCloud with default on desktop 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand DreamCloud with default on mobile 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand Nectar with default on desktop 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Grid should match snapshot for brand Nectar with default on mobile 1`] = `
+<div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row mui-n1pu08-MuiGrid2-root"
+  >
+    <div>
+      Child 1
+    </div>
+    <div>
+      Child 2
+    </div>
+  </div>
+</div>
+`;

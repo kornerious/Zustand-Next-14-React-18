@@ -22,7 +22,7 @@ const ProductCard = memo(({ product }: ProductCardProps) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     // ✅ Handle add to cart with feedback
-    const handleAddToCart = () => {
+         const handleAddToCart = () => {
         addToCart({
             id: product.id,
             name: product.title,
