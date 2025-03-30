@@ -161,3 +161,57 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX Daemon Server] - 2025-03-30T21:30:30.406Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
 [NX Daemon Server] - 2025-03-30T21:30:30.406Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
 [NX Daemon Server] - 2025-03-30T21:30:30.408Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"
+[NX Daemon Server] - 2025-03-30T21:42:04.481Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX Daemon Server] - 2025-03-30T21:42:04.483Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX Daemon Server] - 2025-03-30T21:42:04.487Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:04.487Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-03-30T21:42:04.488Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:04.488Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-03-30T21:42:04.575Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-03-30T21:42:04.575Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T21:42:04.575Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T21:42:04.578Z - Time taken for 'loadNxPlugins' 85.66166700000001ms
+[NX Daemon Server] - 2025-03-30T21:42:04.596Z - Time taken for 'build-project-configs' 8.49129099999999ms
+[NX Daemon Server] - 2025-03-30T21:42:04.610Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-03-30T21:42:04.611Z - [SYNC]: scheduling: []
+[NX Daemon Server] - 2025-03-30T21:42:04.611Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-03-30T21:42:04.611Z - Time taken for 'total for creating and serializing project graph' 122.43945900000001ms
+[NX Daemon Server] - 2025-03-30T21:42:04.616Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-03-30T21:42:04.616Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 123. Response time: 5.
+[NX Daemon Server] - 2025-03-30T21:42:04.618Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:42:04.619Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:04.619Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:42:04.619Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:04.620Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:42:04.620Z - Done responding to the client handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:42:04.620Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2025-03-30T21:42:09.769Z - [WATCHER]: package.json was modified
+[NX Daemon Server] - 2025-03-30T21:42:09.770Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:42:09.871Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-03-30T21:42:09.871Z - [REQUEST]: package.json
+[NX Daemon Server] - 2025-03-30T21:42:09.871Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T21:42:09.873Z - Time taken for 'hash changed files from watcher' 0.08829200000036508ms
+[NX Daemon Server] - 2025-03-30T21:42:09.879Z - Time taken for 'build-project-configs' 5.978041999999732ms
+[NX Daemon Server] - 2025-03-30T21:42:09.889Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-03-30T21:42:09.889Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX Daemon Server] - 2025-03-30T21:42:09.889Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX Daemon Server] - 2025-03-30T21:42:09.889Z - [SYNC]: scheduling: []
+[NX Daemon Server] - 2025-03-30T21:42:09.889Z - Time taken for 'total execution time for createProjectGraph()' 8.189582999999402ms
+[NX Daemon Server] - 2025-03-30T21:42:10.222Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-03-30T21:42:10.222Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-03-30T21:42:10.222Z - Time taken for 'total for creating and serializing project graph' 0.1836249999996653ms
+[NX Daemon Server] - 2025-03-30T21:42:10.223Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-03-30T21:42:10.223Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2025-03-30T21:42:10.225Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:42:10.226Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:10.226Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:42:10.226Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:42:10.227Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:42:10.227Z - Done responding to the client handleContextFileData
+[NX Daemon Server] - 2025-03-30T21:42:10.227Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2025-03-30T21:42:25.436Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:42:33.164Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:42:33.164Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:42:33.164Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX Daemon Server] - 2025-03-30T21:42:33.164Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX Daemon Server] - 2025-03-30T21:42:33.164Z - Server stopped because: "LOCK_FILES_CHANGED"

@@ -14,15 +14,17 @@
     "react": "^18",
     "react-dom": "^18",
     "zustand": "^4.5.6",
+    "@types/jest": "29.4.0",
+    "@types/lodash": "4.14.202",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-lazyload": "3.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
     "@nx/eslint-plugin": "^20.6.4",
     "@nx/jest": "19.6.1",
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
-    "@types/jest": "29.4.0",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
     "autoprefixer": "^10.0.1",
     "babel-jest": "29.4.1",
     "daisyui": "^4.7.2",
@@ -53,172 +55,52 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".browserslistrc",
-        "hash": "11246210250085283210"
-      },
-      {
-        "file": ".editorconfig",
-        "hash": "7736423658450110852"
-      },
-      {
-        "file": ".env",
-        "hash": "18049769857355637557"
-      },
-      {
-        "file": ".eslintignore",
-        "hash": "17375370776820368750"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "2727041481353882480"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "17107963829811268070"
-      },
-      {
-        "file": ".husky/pre-commit",
-        "hash": "6304141780920261136"
-      },
-      {
-        "file": ".lintstagedrc",
-        "hash": "10101570865254869837"
-      },
-      {
-        "file": ".npmrc",
-        "hash": "18085261541358865259"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "16448050467312557263"
-      },
-      {
-        "file": ".prettierrc",
-        "hash": "14280521829695014629"
-      },
-      {
-        "file": "LICENSE",
-        "hash": "1659225284014838862"
-      },
-      {
-        "file": "README.md",
-        "hash": "2910702969638455734"
-      },
-      {
-        "file": "app/admin/orders/[id]/page.tsx",
-        "hash": "15232120013791384611"
-      },
-      {
-        "file": "app/admin/page.tsx",
-        "hash": "6545132534172221132"
+        "file": "app/checkout/page.tsx",
+        "hash": "5180443252483146938"
       },
       {
         "file": "app/api/checkout/route.ts",
         "hash": "925612711010469497"
       },
       {
-        "file": "app/api/products/route.ts",
-        "hash": "11062100818395074647"
-      },
-      {
-        "file": "app/cart/page.tsx",
-        "hash": "9194117028381263147"
-      },
-      {
-        "file": "app/checkout/page.tsx",
-        "hash": "5180443252483146938"
-      },
-      {
-        "file": "app/favicon.ico",
-        "hash": "9157999678830540297"
-      },
-      {
-        "file": "app/globals.css",
-        "hash": "8997952570524310529"
-      },
-      {
-        "file": "app/layout.tsx",
-        "hash": "13485221642714367714"
-      },
-      {
-        "file": "app/order-confirmation/page.tsx",
-        "hash": "9451041285870741488"
-      },
-      {
         "file": "app/page.tsx",
         "hash": "5388394012159543786"
-      },
-      {
-        "file": "app/shop/[category]/page.tsx",
-        "hash": "1654256026556285034"
-      },
-      {
-        "file": "app/shop/page.tsx",
-        "hash": "11060680588999308551"
-      },
-      {
-        "file": "components/Grid/Grid.tsx",
-        "hash": "4728652891470080265"
-      },
-      {
-        "file": "components/Grid/__snapshots__/Grid.spec.tsx.snap",
-        "hash": "8036663872045400544"
-      },
-      {
-        "file": "components/Navbar.tsx",
-        "hash": "1989765551199797328"
-      },
-      {
-        "file": "components/ProductCard/ProductCard.tsx",
-        "hash": "16702967757760424812"
       },
       {
         "file": "ignored_build_step.sh",
         "hash": "17786431105238442226"
       },
       {
-        "file": "jest.config.ts",
-        "hash": "4102499999777923573"
-      },
-      {
-        "file": "jest.preset.ts",
-        "hash": "14932722313705501266"
-      },
-      {
-        "file": "next.config.mjs",
-        "hash": "7997211371987425127"
-      },
-      {
-        "file": "nx.json",
-        "hash": "9033259701654868858"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "18309420577837499802"
-      },
-      {
-        "file": "package.json",
-        "hash": "5848249825636694517"
-      },
-      {
-        "file": "postcss.config.js",
-        "hash": "8055263870272897227"
-      },
-      {
-        "file": "public/next.svg",
-        "hash": "8300767200008744458"
+        "file": "README.md",
+        "hash": "2910702969638455734"
       },
       {
         "file": "public/vercel.svg",
         "hash": "2376673330454856631"
       },
       {
-        "file": "src/utils.ts",
-        "hash": "9156875179998637884"
+        "file": ".browserslistrc",
+        "hash": "11246210250085283210"
       },
       {
-        "file": "store/cartStore.ts",
-        "hash": "14832042347013442566"
+        "file": "tsconfig.json",
+        "hash": "10649214903272505473"
+      },
+      {
+        "file": "postcss.config.js",
+        "hash": "8055263870272897227"
+      },
+      {
+        "file": "nx.json",
+        "hash": "9033259701654868858"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "hash": "9194117028381263147"
+      },
+      {
+        "file": "app/shop/[category]/page.tsx",
+        "hash": "1654256026556285034"
       },
       {
         "file": "store/orderStore.ts",
@@ -229,6 +111,62 @@
         "hash": "12251144478948138533"
       },
       {
+        "file": "components/Grid/__snapshots__/Grid.spec.tsx.snap",
+        "hash": "8036663872045400544"
+      },
+      {
+        "file": "app/api/products/route.ts",
+        "hash": "11062100818395074647"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "18309420577837499802"
+      },
+      {
+        "file": "package.json",
+        "hash": "17399605906103752164"
+      },
+      {
+        "file": "app/favicon.ico",
+        "hash": "9157999678830540297"
+      },
+      {
+        "file": "src/utils.ts",
+        "hash": "9156875179998637884"
+      },
+      {
+        "file": "app/admin/orders/[id]/page.tsx",
+        "hash": "15232120013791384611"
+      },
+      {
+        "file": ".husky/pre-commit",
+        "hash": "6304141780920261136"
+      },
+      {
+        "file": ".lintstagedrc",
+        "hash": "10101570865254869837"
+      },
+      {
+        "file": "vercel.json",
+        "hash": "5927776751436287539"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "9815970792323399078"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "1659225284014838862"
+      },
+      {
+        "file": "public/next.svg",
+        "hash": "8300767200008744458"
+      },
+      {
+        "file": "store/cartStore.ts",
+        "hash": "14832042347013442566"
+      },
+      {
         "file": "store/themeStore.ts",
         "hash": "2304933024782172859"
       },
@@ -237,12 +175,76 @@
         "hash": "906453416956733011"
       },
       {
-        "file": "tsconfig.json",
-        "hash": "10649214903272505473"
+        "file": "next.config.mjs",
+        "hash": "6982826295049658585"
       },
       {
-        "file": "vercel.json",
-        "hash": "5927776751436287539"
+        "file": "components/ProductCard/ProductCard.tsx",
+        "hash": "16702967757760424812"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "17375370776820368750"
+      },
+      {
+        "file": ".env",
+        "hash": "18049769857355637557"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "7736423658450110852"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "2727041481353882480"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "16448050467312557263"
+      },
+      {
+        "file": "app/admin/page.tsx",
+        "hash": "6545132534172221132"
+      },
+      {
+        "file": "app/shop/page.tsx",
+        "hash": "11060680588999308551"
+      },
+      {
+        "file": "app/layout.tsx",
+        "hash": "13485221642714367714"
+      },
+      {
+        "file": "components/Grid/Grid.tsx",
+        "hash": "4728652891470080265"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "hash": "1989765551199797328"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "4102499999777923573"
+      },
+      {
+        "file": "jest.preset.ts",
+        "hash": "14932722313705501266"
+      },
+      {
+        "file": "app/globals.css",
+        "hash": "8997952570524310529"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "18085261541358865259"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "14280521829695014629"
+      },
+      {
+        "file": "app/order-confirmation/page.tsx",
+        "hash": "9451041285870741488"
       }
     ],
     "projectFileMap": {}
