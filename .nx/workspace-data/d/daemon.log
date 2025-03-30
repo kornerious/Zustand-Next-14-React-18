@@ -1,0 +1,11 @@
+[NX Daemon Server] - 2025-03-30T21:20:58.026Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX Daemon Server] - 2025-03-30T21:20:58.028Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX Daemon Server] - 2025-03-30T21:20:58.038Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:20:58.038Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-03-30T21:20:58.039Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T21:20:58.039Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2025-03-30T21:20:58.040Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2025-03-30T21:20:58.040Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2025-03-30T21:20:58.040Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:20:58.040Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX Daemon Server] - 2025-03-30T21:20:58.040Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
