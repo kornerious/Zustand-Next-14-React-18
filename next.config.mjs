@@ -3,6 +3,7 @@ const nextConfig = {
     reactStrictMode: true,
     experimental: {
         appDir: true, // ✅ Ensure this is enabled
+        serverActions: true,
     },
     images: {
         remotePatterns: [
