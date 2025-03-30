@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Container, Typography, Grid } from "@mui/material";
-import ProductCard from "../../../components/ProductCard";
+import { Container, Typography } from "@mui/material";
+import ProductCard from "@/components/ProductCard/ProductCard";
+import Grid from "@/components/Grid/Grid";
 
 // ✅ Define Product Type
 interface Product {
@@ -62,7 +63,7 @@ export default function CategoryPage() {
             ) : (
                 <Grid container spacing={2}>
                     {products.map((product) => (
-                        <Grid item key={product.id} xs={12} sm={6} md={4}>
+                        <Grid key={product.id}>
                             <ProductCard product={product} />
                         </Grid>
                     ))}

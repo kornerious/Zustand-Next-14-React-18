@@ -1,5 +1,6 @@
-import { Container, Typography, Grid } from "@mui/material";
-import ProductCard from "@/components/ProductCard";
+import {Container, Typography} from "@mui/material";
+import ProductCard from "@/components/ProductCard/ProductCard";
+import Grid from "@/components/Grid/Grid";
 
 // ✅ Hardcoded API Key & ID (Replace with environment variables later)
 const JSONBIN_API_KEY = process.env.NEXT_PUBLIC_JSONBIN_API_KEY || "";
@@ -23,7 +24,7 @@ async function fetchProducts() {
         }
 
         const data = await response.json();
-        console.log("Fetched Products:", data.record.products);
+
         return data.record.products || [];
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -41,10 +42,10 @@ export default async function ShopPage() {
                 Shop
             </Typography>
             {products.length > 0 ? (
-                <Grid container spacing={3}>
+                <Grid container spacing={6}>
                     {products.map((product: any) => (
-                        <Grid item key={product.id} xs={12} sm={6} md={4}>
-                            <ProductCard product={product} />
+                        <Grid key={product.id} sx={{xs: 12, sm: 6, md: 4}}>
+                            <ProductCard product={product}/>
                         </Grid>
                     ))}
                 </Grid>

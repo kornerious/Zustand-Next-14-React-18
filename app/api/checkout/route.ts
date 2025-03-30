@@ -14,6 +14,5 @@ export async function POST(req: Request) {
     // Save order to Zustand store
     useOrderStore.getState().addOrder(newOrder);
 
-    console.log("Order received:", newOrder);
     return NextResponse.json({ message: "Order successfully placed", orderId });
 }
