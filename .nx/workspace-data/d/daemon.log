@@ -125,3 +125,9 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX Daemon Server] - 2025-03-30T21:28:15.228Z - Time taken for 'total execution time for createProjectGraph()' 10.548040999998193ms
 [NX Daemon Server] - 2025-03-30T21:28:15.482Z - [WATCHER]: Processing file changes in outputs
 [NX Daemon Server] - 2025-03-30T21:28:15.645Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: .gitignore was modified
+[NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T21:29:03.407Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX Daemon Server] - 2025-03-30T21:29:03.407Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX Daemon Server] - 2025-03-30T21:29:03.408Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"

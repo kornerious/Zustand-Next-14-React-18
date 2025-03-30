@@ -45,3 +45,4 @@ next-env.d.ts
 .settings/
 *.sublime-workspace
 backend/
+.nx
