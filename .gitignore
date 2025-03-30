@@ -37,4 +37,11 @@ next-env.d.ts
 
 .qodo
 .idea/
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 backend/
