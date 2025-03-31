@@ -7,9 +7,9 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "prepare": "husky install .husky",
         "storybook:build": "nx run mui:build-storybook",
         "storybook:dev": "nx run mui:storybook",
-        "prepare": "husky install .husky",
         "mui:test": "nx test mui"
     },
     "dependencies": {
@@ -27,15 +27,13 @@
         "zustand": "^4.5.6",
         "@types/jest": "29.4.0",
         "@types/lodash": "4.14.202",
-        "@types/react": "18.2.33",
-        "@types/react-dom": "18.2.14",
+        "@types/react": "18.3.20",
+        "@types/react-dom": "18.3.5",
         "@types/react-lazyload": "3.2.0",
-        "@typescript-eslint/eslint-plugin": "6.9.1",
-        "@typescript-eslint/parser": "6.9.1"
+        "@typescript-eslint/eslint-plugin": "8.28.0",
+        "@typescript-eslint/parser": "8.28.0"
     },
     "devDependencies": {
-        "@nx/eslint-plugin": "^20.6.4",
-        "@nx/jest": "19.6.1",
         "@trivago/prettier-plugin-sort-imports": "4.3.0",
         "@types/jest": "29.4.0",
         "@types/node": "^20",

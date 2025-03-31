@@ -215,3 +215,33 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX Daemon Server] - 2025-03-30T21:42:33.164Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
 [NX Daemon Server] - 2025-03-30T21:42:33.164Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
 [NX Daemon Server] - 2025-03-30T21:42:33.164Z - Server stopped because: "LOCK_FILES_CHANGED"
+[NX Daemon Server] - 2025-03-30T22:56:10.156Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX Daemon Server] - 2025-03-30T22:56:10.158Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX Daemon Server] - 2025-03-30T22:56:10.159Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T22:56:10.159Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-03-30T22:56:10.160Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T22:56:10.160Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-03-30T22:56:10.247Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-03-30T22:56:10.247Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T22:56:10.247Z - [REQUEST]: 
+[NX Daemon Server] - 2025-03-30T22:56:10.250Z - Time taken for 'loadNxPlugins' 86.03116600000001ms
+[NX Daemon Server] - 2025-03-30T22:56:10.260Z - Time taken for 'build-project-configs' 2.6345830000000205ms
+[NX Daemon Server] - 2025-03-30T22:56:10.262Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-03-30T22:56:10.262Z - [SYNC]: scheduling: []
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 103. Response time: 0.
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Time taken for 'total for creating and serializing project graph' 102.19362499999997ms
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T22:56:10.263Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-03-30T22:56:10.264Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX Daemon Server] - 2025-03-30T22:56:10.264Z - Done responding to the client handleContextFileData
+[NX Daemon Server] - 2025-03-30T22:56:10.264Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-03-30T22:57:01.460Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T22:57:01.632Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-03-30T22:57:01.633Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-03-30T22:57:01.633Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX Daemon Server] - 2025-03-30T22:57:01.633Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX Daemon Server] - 2025-03-30T22:57:01.634Z - Server stopped because: "NX_VERSION_CHANGED"
