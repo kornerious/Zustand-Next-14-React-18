@@ -7,7 +7,6 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "prepare": "husky install .husky",
         "storybook:build": "nx run mui:build-storybook",
         "storybook:dev": "nx run mui:storybook",
         "mui:test": "nx test mui"

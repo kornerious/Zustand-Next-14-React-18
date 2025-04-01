@@ -1,6 +1,9 @@
+"use client";
 import {Container, Typography} from "@mui/material";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Grid from "@/components/Grid/Grid";
+import ProductModal from "@/components/ProductModal/ProductModal";
+import {useState, useEffect} from "react";
 
 // ✅ Hardcoded API Key & ID (Replace with environment variables later)
 const JSONBIN_API_KEY = process.env.NEXT_PUBLIC_JSONBIN_API_KEY || "";
@@ -32,9 +35,18 @@ async function fetchProducts() {
     }
 }
 
-// ✅ Server Component - ShopPage
-export default async function ShopPage() {
-    const products = await fetchProducts();
+// ✅ Client Component - ShopPage
+export default function ShopPage() {
+    const [products, setProducts] = useState<any[]>([]);
+    const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const fetchedProducts = await fetchProducts();
+            setProducts(fetchedProducts);
+        };
+        loadProducts();
+    }, []);
 
     return (
         <Container>
@@ -45,7 +57,16 @@ export default async function ShopPage() {
                 <Grid container spacing={6}>
                     {products.map((product: any) => (
                         <Grid key={product.id} sx={{xs: 12, sm: 6, md: 4}}>
-                            <ProductCard product={product}/>
+                            <ProductCard 
+                                setProductOpenModal={setSelectedProductId} 
+                                product={product}
+                            />
+                            {selectedProductId === product.id && (
+                                <ProductModal 
+                                    product={product}
+                                    onClose={() => setSelectedProductId(null)}
+                                />
+                            )}
                         </Grid>
                     ))}
                 </Grid>
