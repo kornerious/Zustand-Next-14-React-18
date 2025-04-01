@@ -245,3 +245,58 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX Daemon Server] - 2025-03-30T22:57:01.633Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
 [NX Daemon Server] - 2025-03-30T22:57:01.633Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
 [NX Daemon Server] - 2025-03-30T22:57:01.634Z - Server stopped because: "NX_VERSION_CHANGED"
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.975Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.978Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.982Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.982Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.983Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.983Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - Done responding to the client Shutdown initiated
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 1.
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:39.984Z - Server stopped because: "Request to shutdown"
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.795Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.797Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.799Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.799Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.800Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.800Z - [REQUEST]: Client Request for Project Graph Received
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.803Z - Time taken for 'loadSpecifiedNxPlugins' 0.501334ms
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.857Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.879Z - Time taken for 'Load Nx Plugin: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18/node_modules/nx/src/plugins/package-json' 78.277667ms
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.890Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.891Z - [REQUEST]: 
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.891Z - [REQUEST]: 
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.894Z - Time taken for 'loadDefaultNxPlugins' 89.551667ms
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.913Z - Time taken for 'build-project-configs' 10.608833000000004ms
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.947Z - [SYNC]: collect registered sync generators
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.947Z - [REQUEST]: Responding to the client. project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.947Z - Time taken for 'total for creating and serializing project graph' 146.75325ms
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.948Z - Done responding to the client project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.948Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 147. Response time: 1.
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.950Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.951Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.952Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.952Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.952Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.952Z - Done responding to the client handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:26:40.952Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:10.526Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:10.526Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:10.526Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:10.526Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:10.526Z - Server stopped because: "NX_VERSION_CHANGED"
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.566Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.567Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.576Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.577Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.578Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.578Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.578Z - Done responding to the client Shutdown initiated
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.579Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 0.
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.583Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.583Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.585Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
+[NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.585Z - Server stopped because: "Request to shutdown"

@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { Container, Typography } from "@mui/material";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Grid from "@/components/Grid/Grid";
+import ProductModal from "@/components/ProductModal/ProductModal";
 
 // ✅ Define Product Type
 interface Product {
@@ -22,6 +23,7 @@ export default function CategoryPage() {
     const { category } = useParams();
     const [products, setProducts] = useState<Product[]>([]);
     const [error, setError] = useState<string>("");
+    const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -64,7 +66,16 @@ export default function CategoryPage() {
                 <Grid container spacing={2}>
                     {products.map((product) => (
                         <Grid key={product.id}>
-                            <ProductCard product={product} />
+                            <ProductCard
+                                setProductOpenModal={setSelectedProductId}
+                                product={product}
+                            />
+                            {selectedProductId === product.id && (
+                                <ProductModal
+                                    product={product}
+                                    onClose={() => setSelectedProductId(null)}
+                                />
+                            )}
                         </Grid>
                     ))}
                 </Grid>

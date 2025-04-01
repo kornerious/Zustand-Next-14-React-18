@@ -44,7 +44,7 @@ const ProductCard = memo(({product, setProductOpenModal}: ProductCardProps) => {
 
     return (
         <>
-            <Card sx={{width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%"}}
+            <Card sx={{width: 250, p: 2, display: "flex", flexDirection: "column", height: "100%", cursor: "pointer"}}
                   onClick={() => handleProductClick(product.id)}>
                 <Box sx={{width: "100%", height: "200px", overflow: "hidden", mx: "auto"}}>
                     <Image

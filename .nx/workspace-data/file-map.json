@@ -1,44 +1,6 @@
 {
   "version": "6.0",
-  "nxVersion": "19.6.1",
-  "deps": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "6.1.5",
-    "@mui/material": "6.1.5",
-    "@nestjs/jwt": "^11.0.0",
-    "@tailwindcss/typography": "^0.5.10",
-    "next": "^14.2.24",
-    "next-auth": "^4.24.11",
-    "passport-jwt": "^4.0.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "zustand": "^4.5.6",
-    "@types/jest": "29.4.0",
-    "@types/lodash": "4.14.202",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@types/react-lazyload": "3.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "@trivago/prettier-plugin-sort-imports": "4.3.0",
-    "@types/node": "^20",
-    "autoprefixer": "^10.0.1",
-    "babel-jest": "29.4.1",
-    "daisyui": "^4.7.2",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "14.1.0",
-    "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-storybook": "^0.12.0",
-    "husky": "^9.1.7",
-    "jest": "29.4.1",
-    "jest-environment-jsdom": "29.4.1",
-    "postcss": "^8",
-    "prettier": "2.6.2",
-    "tailwindcss": "^3.3.0",
-    "ts-jest": "29.1.0",
-    "typescript": "^5"
-  },
+  "nxVersion": "20.7.0",
   "pathMappings": {
     "@/*": [
       "./*"
@@ -51,6 +13,7 @@
   },
   "nxJsonPlugins": [],
   "fileMap": {
+    "projectFileMap": {},
     "nonProjectFiles": [
       {
         "file": ".browserslistrc",
@@ -75,10 +38,6 @@
       {
         "file": ".gitignore",
         "hash": "9815970792323399078"
-      },
-      {
-        "file": ".husky/pre-commit",
-        "hash": "6304141780920261136"
       },
       {
         "file": ".lintstagedrc",
@@ -154,7 +113,7 @@
       },
       {
         "file": "app/shop/page.tsx",
-        "hash": "11060680588999308551"
+        "hash": "7821529652606088123"
       },
       {
         "file": "components/Grid/Grid.tsx",
@@ -170,7 +129,11 @@
       },
       {
         "file": "components/ProductCard/ProductCard.tsx",
-        "hash": "16702967757760424812"
+        "hash": "168185041052449837"
+      },
+      {
+        "file": "components/ProductModal/ProductModal.tsx",
+        "hash": "15548257539677382194"
       },
       {
         "file": "ignored_build_step.sh",
@@ -194,7 +157,7 @@
       },
       {
         "file": "package.json",
-        "hash": "9429928704800802214"
+        "hash": "5296954334866679391"
       },
       {
         "file": "postcss.config.js",
@@ -240,7 +203,6 @@
         "file": "vercel.json",
         "hash": "5927776751436287539"
       }
-    ],
-    "projectFileMap": {}
+    ]
   }
 }
