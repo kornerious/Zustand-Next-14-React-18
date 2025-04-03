@@ -300,3 +300,59 @@ Error: Source project does not exist: npm:@nx/eslint-plugin
 [NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.583Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (sources)
 [NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.585Z - [WATCHER]: Stopping the watcher for /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (outputs)
 [NX v20.7.0 Daemon Server] - 2025-04-01T18:27:52.585Z - Server stopped because: "Request to shutdown"
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.156Z - Started listening on: /var/folders/73/7q08_v5s7q76bydny_316krw0000gn/T/95e7db94919b5c46d4e3/d.sock
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.158Z - [WATCHER]: Subscribed to changes within: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18 (native)
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.161Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.162Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.163Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.163Z - [REQUEST]: Client Request for Project Graph Received
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.166Z - Time taken for 'loadSpecifiedNxPlugins' 0.5909159999999929ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.218Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.265Z - Time taken for 'Load Nx Plugin: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18/node_modules/nx/src/plugins/package-json' 100.38900000000001ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.266Z - Time taken for 'Load Nx Plugin: /Users/alex/Downloads/Interview/Zustand-Next-14-React-18/node_modules/nx/src/plugins/project-json/build-nodes/project-json' 101.569541ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.274Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.274Z - [REQUEST]: 
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.274Z - [REQUEST]: 
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.281Z - Time taken for 'loadDefaultNxPlugins' 109.945167ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.305Z - Time taken for 'build-project-configs' 13.283749999999998ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.360Z - [SYNC]: collect registered sync generators
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.360Z - [REQUEST]: Responding to the client. project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.361Z - Time taken for 'total for creating and serializing project graph' 197.179833ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.364Z - Done responding to the client project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.364Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 197. Response time: 4.
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.366Z - Closed a connection. Number of open connections: 0
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.368Z - Established a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.368Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.369Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.369Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.369Z - Done responding to the client handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:50.369Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:13:51.697Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T15:21:22.171Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:46:51.687Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:46:52.083Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.463Z - [WATCHER]: nx.json was modified
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.464Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.565Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.566Z - [REQUEST]: nx.json
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.566Z - [REQUEST]: 
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.569Z - Time taken for 'hash changed files from watcher' 0.1186670009046793ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.580Z - Time taken for 'build-project-configs' 10.655582999810576ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.603Z - [SYNC]: collect registered sync generators
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.603Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.603Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.603Z - Time taken for 'total execution time for createProjectGraph()' 12.040333000943065ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.785Z - [WATCHER]: Processing file changes in outputs
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.969Z - [REQUEST]: Client Request for Project Graph Received
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.973Z - [REQUEST]: Responding to the client. project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.974Z - Time taken for 'total for creating and serializing project graph' 4.350041000172496ms
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.974Z - Done responding to the client project-graph
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.978Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 4. Response time: 5.
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.978Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.979Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.983Z - Established a connection. Number of open connections: 2
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.983Z - Closed a connection. Number of open connections: 1
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.984Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.984Z - Done responding to the client handleContextFileData
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:54.984Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX v20.7.0 Daemon Server] - 2025-04-03T17:47:59.792Z - [WATCHER]: Processing file changes in outputs

@@ -81,7 +81,8 @@
     "tasksRunnerOptions": {
         "default": {
             "options": {
-                "cacheableOperations": ["build-storybook"]
+                "cacheableOperations": ["build-storybook"],
+                "cacheDirectory": "node_modules/.cache/nx"
             }
         }
     }
