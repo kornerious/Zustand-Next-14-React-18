@@ -42,6 +42,7 @@
     "exclude": [
         "node_modules",
         "tmp",
-        "libs/data/src/lib/Mui"
+        "libs/data/src/lib/Mui",
+        "**/*.test.ts", "**/*.spec.ts", "jest.config.ts"
     ]
 }
