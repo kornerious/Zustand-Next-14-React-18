@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
     Box, Typography, CircularProgress, Container
@@ -12,7 +12,26 @@ import ProductGrid from '@/components/ProductGrid';
 // Cache for product data
 const productCache = new Map<string, Product[]>();
 
-export default function CategoryPage() {
+// Loading fallback component
+function CategoryPageLoading() {
+  return (
+    <PageContainer title="Loading Category" subtitle="Please wait...">
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '60vh' 
+        }}
+      >
+        <CircularProgress size={60} thickness={4} />
+      </Box>
+    </PageContainer>
+  );
+}
+
+// Main category page component that uses params
+function CategoryPageContent() {
     const { category } = useParams();
     const router = useRouter();
     const [products, setProducts] = useState<Product[]>([]);
@@ -79,4 +98,13 @@ export default function CategoryPage() {
             />
         </PageContainer>
     );
+}
+
+// Main component that wraps CategoryPageContent in Suspense
+export default function CategoryPage() {
+  return (
+    <Suspense fallback={<CategoryPageLoading />}>
+      <CategoryPageContent />
+    </Suspense>
+  );
 }

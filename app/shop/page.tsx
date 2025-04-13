@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Modal, 
@@ -25,7 +25,24 @@ import { throttle } from "@/src/utils";
 // Cache for product data
 const productCache = new Map<string, Product[]>();
 
-export default function ShopPage() {
+// Loading fallback component
+function ShopPageLoading() {
+  return (
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '60vh' 
+      }}
+    >
+      <CircularProgress size={60} thickness={4} />
+    </Box>
+  );
+}
+
+// Main shop page component that uses search params
+function ShopPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [products, setProducts] = useState<Product[]>(productCache.get('all') || []);
@@ -457,4 +474,13 @@ export default function ShopPage() {
             </Box>
         </Layout>
     );
+}
+
+// Main component that wraps ShopPageContent in Suspense
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<ShopPageLoading />}>
+      <ShopPageContent />
+    </Suspense>
+  );
 }

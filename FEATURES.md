@@ -13,6 +13,7 @@
 - Responsive navbar with mobile menu
 - Client-side layout with theme provider
 - Page container components for consistent layout
+- Proper Suspense boundaries for client-side navigation hooks
 
 ### 3. Product Display
 - Product Grid displaying products with filtering
@@ -44,6 +45,15 @@
 - Memoization to prevent unnecessary re-renders
 - Throttled category filtering
 - Code splitting and lazy loading
+- Suspense boundaries for client-side hooks (useSearchParams, useParams)
+
+### Next.js Best Practices
+- Server components for static content
+- Client components for interactive features
+- Proper Suspense boundaries around client-side navigation hooks
+- Dynamic routes with proper data fetching
+- SEO optimization with metadata
+- Build-time optimizations
 
 ### Testing
 - Unit tests for components (Jest + React Testing Library)
