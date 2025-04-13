@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState, useEffect, useRef } from 'react';
+import { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Modal, 
   Paper, 
@@ -16,24 +16,41 @@ import Image from 'next/image';
 import { Product } from '@/types/product';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@/components/Button';
+import { formatPrice } from '@/src/utils';
+import { useCartStore } from '@/store/cartStore';
+import { useRouter } from 'next/navigation';
 
 interface ProductModalProps {
   product: Product;
   open: boolean;
   onClose: () => void;
   onAddToCart: (product: Product) => void;
+  redirectToCart?: boolean;
 }
 
+/**
+ * ProductModal component displays detailed product information in a modal
+ * and allows adding the product to cart.
+ * 
+ * Optimized with:
+ * - Memoization to prevent unnecessary re-renders
+ * - UseCallback for event handlers
+ * - Clean state management with refs for tracking
+ * - Proper cleanup to prevent memory leaks
+ */
 const ProductModal = memo(({
   product,
   open,
   onClose,
-  onAddToCart
+  onAddToCart,
+  redirectToCart = true
 }: ProductModalProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const productIdRef = useRef<number | null>(null);
   const isMounted = useRef(true);
+  const router = useRouter();
+  const isInCart = useCartStore(state => state.isItemInCart(product.id));
   
   // Reset loading state when product changes
   useEffect(() => {
@@ -60,6 +77,37 @@ const ProductModal = memo(({
       isMounted.current = false;
     };
   }, [product.id, product.image, open]);
+  
+  // Image handlers
+  const handleImageLoad = useCallback(() => {
+    if (isMounted.current && productIdRef.current === product.id) {
+      setImageLoaded(true);
+      setImageError(false);
+    }
+  }, [product.id]);
+  
+  const handleImageError = useCallback(() => {
+    if (isMounted.current && productIdRef.current === product.id) {
+      setImageLoaded(false);
+      setImageError(true);
+    }
+  }, [product.id]);
+  
+  // Add to cart handler
+  const handleAddToCart = useCallback(() => {
+    onAddToCart(product);
+    
+    if (redirectToCart) {
+      setTimeout(() => {
+        if (isMounted.current) {
+          router.push('/cart');
+          onClose();
+        }
+      }, 300);
+    } else {
+      onClose();
+    }
+  }, [product, onAddToCart, onClose, redirectToCart, router]);
   
   return (
     <Modal
@@ -147,18 +195,8 @@ const ProductModal = memo(({
                       style={{ objectFit: 'cover' }}
                       priority
                       quality={90}
-                      onLoadingComplete={() => {
-                        if (isMounted.current && productIdRef.current === product.id) {
-                          setImageLoaded(true);
-                          setImageError(false);
-                        }
-                      }}
-                      onError={() => {
-                        if (isMounted.current && productIdRef.current === product.id) {
-                          setImageLoaded(false);
-                          setImageError(true);
-                        }
-                      }}
+                      onLoadingComplete={handleImageLoad}
+                      onError={handleImageError}
                     />
                   )}
                 </Box>
@@ -190,6 +228,14 @@ const ProductModal = memo(({
                     value={product.rating?.rate || 0}
                     precision={0.5}
                     readOnly
+                    sx={{
+                      '& .MuiRating-iconFilled': {
+                        color: 'primary.main'
+                      },
+                      '& .MuiRating-iconEmpty': {
+                        color: 'rgba(255, 255, 255, 0.2)'
+                      }
+                    }}
                   />
                   <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
                     ({product.rating?.count || 0} reviews)
@@ -204,7 +250,7 @@ const ProductModal = memo(({
                   color: 'text.primary'
                 }}
               >
-                ${product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </Typography>
 
               {product.category && (
@@ -258,7 +304,7 @@ const ProductModal = memo(({
               <Button
                 variant="contained"
                 size="large"
-                onClick={() => onAddToCart(product)}
+                onClick={handleAddToCart}
                 sx={{ 
                   mt: 2,
                   backgroundColor: '#212121',
@@ -268,7 +314,7 @@ const ProductModal = memo(({
                   }
                 }}
               >
-                Add to Cart
+                {isInCart ? 'Add Again to Cart' : 'Add to Cart'}
               </Button>
             </Stack>
           </Grid>

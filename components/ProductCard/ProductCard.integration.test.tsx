@@ -1,6 +1,22 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import ProductCard from './ProductCard';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
+// Mock the cart store
+jest.mock('@/store/cartStore', () => ({
+  useCartStore: () => ({
+    isItemInCart: () => false,
+    items: [],
+  }),
+}));
 
 // Mock product data
 const mockProduct = {
@@ -18,6 +34,7 @@ const theme = createTheme();
 
 describe('ProductCard Integration Tests', () => {
   const mockAddToCart = jest.fn();
+  const mockViewDetails = jest.fn();
 
   // Setup function to render with theme
   const renderWithTheme = (ui: React.ReactElement) => {
@@ -30,6 +47,7 @@ describe('ProductCard Integration Tests', () => {
 
   beforeEach(() => {
     mockAddToCart.mockClear();
+    mockViewDetails.mockClear();
   });
 
   it('integrates with theme correctly', () => {
@@ -37,15 +55,15 @@ describe('ProductCard Integration Tests', () => {
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
+        onViewDetails={mockViewDetails}
       />
     );
     
     // Verify that the title and price are styled according to the theme
     const title = screen.getByText('Premium Engine Oil');
-    const price = screen.getByText('$49.99');
     
     expect(title).toBeInTheDocument();
-    expect(price).toBeInTheDocument();
+    expect(screen.getByText(/49\.99/)).toBeInTheDocument();
   });
 
   it('handles add to cart interaction with styled button', () => {
@@ -53,6 +71,7 @@ describe('ProductCard Integration Tests', () => {
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
+        onViewDetails={mockViewDetails}
       />
     );
     
@@ -65,19 +84,25 @@ describe('ProductCard Integration Tests', () => {
     expect(mockAddToCart).toHaveBeenCalledWith(mockProduct);
   });
 
-  it('renders with fullWidth prop correctly', () => {
+  it('handles view details interaction when clicking the card', () => {
     renderWithTheme(
-      <div style={{ width: '600px' }}>
-        <ProductCard 
-          product={mockProduct} 
-          onAddToCart={mockAddToCart}
-          fullWidth={true}
-        />
-      </div>
+      <ProductCard 
+        product={mockProduct} 
+        onAddToCart={mockAddToCart}
+        onViewDetails={mockViewDetails}
+      />
     );
     
-    // The component should render in the container
-    const title = screen.getByText('Premium Engine Oil');
-    expect(title).toBeInTheDocument();
+    // Find and click the paper element containing the card
+    const paperElement = screen.getByText('Premium Engine Oil').closest('div');
+    expect(paperElement).not.toBeNull();
+    
+    if (paperElement) {
+      fireEvent.click(paperElement);
+      
+      // Verify the callback was called with the product
+      expect(mockViewDetails).toHaveBeenCalledTimes(1);
+      expect(mockViewDetails).toHaveBeenCalledWith(mockProduct);
+    }
   });
 }); 

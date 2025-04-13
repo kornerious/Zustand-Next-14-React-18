@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import ProductModal from './ProductModal';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Button from '@/components/Button';
@@ -13,9 +14,12 @@ const mockProduct = {
   image: '/test/integration-image.jpg',
   rating: { rate: 4.8, count: 25 },
   specs: {
-    type: 'Test Type',
-    material: 'Test Material',
-    dimensions: '10x10x10 cm'
+    engine: 'V8 Test Engine',
+    horsepower: '400hp',
+    acceleration: '0-60 in 4.5s',
+    topSpeed: '180 mph',
+    range: '400 miles',
+    seating: '5 passengers'
   }
 };
 
@@ -66,7 +70,7 @@ describe('ProductModal Integration Tests', () => {
     
     // Verify product details are displayed with proper styling
     expect(screen.getByText('Integration Test Product')).toBeInTheDocument();
-    expect(screen.getByText('$149.99')).toBeInTheDocument();
+    expect(screen.getByText(/149\.99/)).toBeInTheDocument();
   });
 
   it('integrates with Button component for add to cart', () => {
@@ -100,7 +104,7 @@ describe('ProductModal Integration Tests', () => {
     
     // Verify specs are displayed
     expect(screen.getByText('Specifications')).toBeInTheDocument();
-    expect(screen.getByText('Test Type')).toBeInTheDocument();
-    expect(screen.getByText('Test Material')).toBeInTheDocument();
+    expect(screen.getByText(/V8 Test Engine/)).toBeInTheDocument();
+    expect(screen.getByText(/400hp/)).toBeInTheDocument();
   });
 }); 

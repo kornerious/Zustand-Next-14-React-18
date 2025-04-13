@@ -1,25 +1,44 @@
 "use client";
 import {Card, CardContent, Typography, Button, Box, Stack, Snackbar, Alert, Skeleton, Fade, Paper, Rating} from "@mui/material";
-import {useState, memo, useEffect, useRef} from "react";
+import {useState, memo, useEffect, useRef, useCallback} from "react";
 import Image from "next/image";
 import {Product} from "@/types/product";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/store/cartStore";
+import { formatPrice } from "@/src/utils";
 
 interface ProductCardProps {
     product: Product;
     onAddToCart: (product: Product) => void;
     onViewDetails: (product: Product) => void;
     priority?: boolean;
+    redirectToCart?: boolean;
 }
 
-const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false}: ProductCardProps) => {
+/**
+ * ProductCard component displays product information and allows adding to cart
+ * and viewing product details.
+ * 
+ * Optimized with:
+ * - Memoization to prevent unnecessary re-renders
+ * - UseCallback for event handlers
+ * - Clean state management with refs for tracking
+ * - Proper cleanup to prevent memory leaks
+ */
+const ProductCard = memo(({
+    product, 
+    onAddToCart, 
+    onViewDetails, 
+    priority = false,
+    redirectToCart = true
+}: ProductCardProps) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [imageLoading, setImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
-    const imageRef = useRef<HTMLImageElement | null>(null);
     const productIdRef = useRef<number | null>(null);
     const isMounted = useRef(true);
     const router = useRouter();
+    const isInCart = useCartStore(state => state.isItemInCart(product.id));
     
     // Reset loading state when product changes to prevent blinking
     useEffect(() => {
@@ -34,8 +53,7 @@ const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false
             setImageLoading(true);
             setImageError(false);
             
-            // No need for additional preloading - Next.js Image handles this
-            // But we'll still handle cases where no image is provided
+            // Handle case where no image is provided
             if (!product.image) {
                 setImageLoading(false);
                 setImageError(true);
@@ -46,27 +64,46 @@ const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false
         return () => {
             isMounted.current = false;
         };
-    }, [product.id, product.image, imageLoading, imageError]);
+    }, [product.id, product.image]);
 
-    // Handle add to cart with feedback and redirect
-    const handleAddToCart = (e: React.MouseEvent) => {
+    // Memoize event handlers to prevent unnecessary re-renders
+    const handleAddToCart = useCallback((e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent bubbling to card click
         onAddToCart(product);
         setSnackbarOpen(true);
         
         // Add a short delay before redirecting to allow snackbar to show
-        setTimeout(() => {
-            router.push('/cart');
-        }, 800);
-    };
+        if (redirectToCart) {
+            setTimeout(() => {
+                if (isMounted.current) {
+                    router.push('/cart');
+                }
+            }, 800);
+        }
+    }, [product, onAddToCart, router, redirectToCart]);
 
-    const handleSnackbarClose = () => {
+    const handleSnackbarClose = useCallback(() => {
         setSnackbarOpen(false);
-    };
+    }, []);
     
-    const handleProductClick = () => {
+    const handleProductClick = useCallback(() => {
         onViewDetails(product);
-    };
+    }, [product, onViewDetails]);
+
+    // Image loading handlers
+    const handleImageLoad = useCallback(() => {
+        if (isMounted.current && productIdRef.current === product.id) {
+            setImageLoading(false);
+            setImageError(false);
+        }
+    }, [product.id]);
+
+    const handleImageError = useCallback(() => {
+        if (isMounted.current && productIdRef.current === product.id) {
+            setImageLoading(false);
+            setImageError(true);
+        }
+    }, [product.id]);
 
     return (
         <>
@@ -136,18 +173,8 @@ const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false
                                 priority={priority}
                                 loading={priority ? "eager" : "lazy"}
                                 quality={85}
-                                onLoadingComplete={() => {
-                                    if (isMounted.current && productIdRef.current === product.id) {
-                                        setImageLoading(false);
-                                        setImageError(false);
-                                    }
-                                }}
-                                onError={() => {
-                                    if (isMounted.current && productIdRef.current === product.id) {
-                                        setImageLoading(false);
-                                        setImageError(true);
-                                    }
-                                }}
+                                onLoadingComplete={handleImageLoad}
+                                onError={handleImageError}
                             />
                         ) : (
                             <Box
@@ -227,7 +254,7 @@ const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false
                             flexGrow: 1
                         }}
                     >
-                        ${product.price.toFixed(2)}
+                        {formatPrice(product.price)}
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                         <Button
@@ -260,7 +287,7 @@ const ProductCard = memo(({product, onAddToCart, onViewDetails, priority = false
                                 }
                             }}
                         >
-                            Add to Cart
+                            {isInCart ? 'Add Again' : 'Add to Cart'}
                         </Button>
                     </Stack>
                 </CardContent>

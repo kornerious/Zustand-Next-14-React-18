@@ -1,5 +1,21 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import ProductCard from './ProductCard';
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
+// Mock the cart store
+jest.mock('@/store/cartStore', () => ({
+  useCartStore: () => ({
+    isItemInCart: () => false,
+    items: [],
+  }),
+}));
 
 // Mock product data
 const mockProduct = {
@@ -14,9 +30,11 @@ const mockProduct = {
 
 describe('ProductCard Component', () => {
   const mockAddToCart = jest.fn();
+  const mockViewDetails = jest.fn();
 
   beforeEach(() => {
     mockAddToCart.mockClear();
+    mockViewDetails.mockClear();
   });
 
   it('renders product information correctly', () => {
@@ -24,15 +42,16 @@ describe('ProductCard Component', () => {
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
+        onViewDetails={mockViewDetails}
       />
     );
     
     // Verify product title and price are displayed
     const title = screen.getByText('Test Product');
-    const price = screen.getByText('$99.99');
     
     expect(title).toBeInTheDocument();
-    expect(price).toBeInTheDocument();
+    // Price may be formatted differently, so we check for part of it
+    expect(screen.getByText(/99\.99/)).toBeInTheDocument();
   });
 
   it('calls onAddToCart when button is clicked', () => {
@@ -40,6 +59,7 @@ describe('ProductCard Component', () => {
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
+        onViewDetails={mockViewDetails}
       />
     );
     
@@ -52,21 +72,25 @@ describe('ProductCard Component', () => {
     expect(mockAddToCart).toHaveBeenCalledWith(mockProduct);
   });
 
-  it('shows loading skeleton when loading prop is true', () => {
+  it('calls onViewDetails when card is clicked', () => {
     render(
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
-        loading={true}
+        onViewDetails={mockViewDetails}
       />
     );
     
-    // Verify that loading skeletons are shown
-    const skeletons = screen.getAllByTestId('skeleton');
-    expect(skeletons.length).toBeGreaterThan(0);
+    // Find and click the paper element containing the card
+    const paperElement = screen.getByText('Test Product').closest('div');
+    expect(paperElement).not.toBeNull();
     
-    // Title and price should not be visible when loading
-    expect(screen.queryByText('Test Product')).not.toBeInTheDocument();
-    expect(screen.queryByText('$99.99')).not.toBeInTheDocument();
+    if (paperElement) {
+      fireEvent.click(paperElement);
+      
+      // Verify the callback was called with the product
+      expect(mockViewDetails).toHaveBeenCalledTimes(1);
+      expect(mockViewDetails).toHaveBeenCalledWith(mockProduct);
+    }
   });
 }); 

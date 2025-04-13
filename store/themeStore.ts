@@ -1,63 +1,84 @@
-import { create } from "zustand";
-import { createTheme, Theme, ThemeOptions } from "@mui/material/styles";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { PaletteMode } from '@mui/material';
 
-interface ThemeState {
-    theme: Theme;
-    toggleTheme: () => void;
-    loadTheme: () => void;
+// Define theme mode type
+type ThemeMode = PaletteMode;
+
+// Define theme color options
+export enum ThemeColor {
+  DARK_CHARCOAL = 'darkCharcoal',
+  BLUE = 'blue',
+  GREEN = 'green',
+  PURPLE = 'purple',
+  RED = 'red'
 }
 
-const createCustomTheme = (mode: 'light' | 'dark'): Theme => {
-    const themeOptions: ThemeOptions = {
-        palette: {
-            mode,
-            ...(mode === 'dark' ? {
-                background: {
-                    default: '#121212',
-                    paper: '#1e1e1e',
-                },
-            } : {
-                background: {
-                    default: '#ffffff',
-                    paper: '#f5f5f5',
-                },
-            }),
-        },
-    };
-    return createTheme(themeOptions);
+// Color values for each theme option
+export const themeColors: Record<ThemeColor, string> = {
+  [ThemeColor.DARK_CHARCOAL]: '#212121',
+  [ThemeColor.BLUE]: '#1976d2',
+  [ThemeColor.GREEN]: '#2e7d32',
+  [ThemeColor.PURPLE]: '#7b1fa2',
+  [ThemeColor.RED]: '#d32f2f'
 };
 
-export const useThemeStore = create<ThemeState>((set) => ({
-    theme: createCustomTheme('dark'), // Default to dark mode
+// Theme state interface with strict typing
+interface ThemeState {
+  mode: ThemeMode;
+  color: ThemeColor;
+  toggleMode: () => void;
+  setMode: (mode: ThemeMode) => void;
+  setColor: (color: ThemeColor) => void;
+  reset: () => void;
+}
 
-    loadTheme: () => {
-        if (typeof window !== "undefined") {
-            try {
-                const savedTheme = localStorage.getItem("theme");
-                if (savedTheme) {
-                    const parsedTheme = JSON.parse(savedTheme);
-                    if (parsedTheme.mode === 'light' || parsedTheme.mode === 'dark') {
-                        set({ theme: createCustomTheme(parsedTheme.mode) });
-                    } else {
-                        throw new Error('Invalid theme mode');
-                    }
-                } else {
-                    localStorage.setItem("theme", JSON.stringify({ mode: "dark" }));
-                }
-            } catch (error) {
-                console.error('Error loading theme:', error);
-                localStorage.setItem("theme", JSON.stringify({ mode: "dark" }));
-            }
-        }
-    },
+// Define default values
+const DEFAULT_MODE: ThemeMode = 'dark';
+const DEFAULT_COLOR: ThemeColor = ThemeColor.DARK_CHARCOAL;
 
-    toggleTheme: () => set((state) => {
-        const newMode = state.theme.palette.mode === "light" ? "dark" : "light";
-
-        if (typeof window !== "undefined") {
-            localStorage.setItem("theme", JSON.stringify({ mode: newMode }));
-        }
-
-        return { theme: createCustomTheme(newMode) };
+// Create the store with persist middleware
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      // Initial state
+      mode: DEFAULT_MODE,
+      color: DEFAULT_COLOR,
+      
+      // Actions
+      toggleMode: () => 
+        set((state) => ({ 
+          mode: state.mode === 'light' ? 'dark' : 'light' 
+        })),
+      
+      setMode: (mode: ThemeMode) => 
+        set({ mode }),
+      
+      setColor: (color: ThemeColor) => 
+        set({ color }),
+      
+      reset: () => 
+        set({ 
+          mode: DEFAULT_MODE, 
+          color: DEFAULT_COLOR 
+        }),
     }),
+    {
+      name: 'theme-storage',
+      partialize: (state) => ({ 
+        mode: state.mode,
+        color: state.color
+      }),
+    }
+  )
+);
+
+// Selector hooks for performance optimization
+export const useThemeMode = (): ThemeMode => useThemeStore((state) => state.mode);
+export const useThemeColor = (): ThemeColor => useThemeStore((state) => state.color);
+export const useThemeActions = () => useThemeStore((state) => ({
+  toggleMode: state.toggleMode,
+  setMode: state.setMode,
+  setColor: state.setColor,
+  reset: state.reset
 }));

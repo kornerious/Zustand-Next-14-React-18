@@ -1,11 +1,16 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Header from './Header';
 
-// Mock the useRouter
+// Mock usePathname
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    pathname: '/',
+  usePathname: () => '/',
+}));
+
+// Mock the cart store
+jest.mock('@/store/cartStore', () => ({
+  useCartStore: () => ({
+    items: [{ id: 1, title: 'Test Product', price: 10, quantity: 1 }],
   }),
 }));
 
@@ -14,19 +19,12 @@ describe('Header Component', () => {
     render(<Header />);
     
     // Check logo is present
-    expect(screen.getByAltText('Auto Parts Shop')).toBeInTheDocument();
+    expect(screen.getByText('AUTO PARTS')).toBeInTheDocument();
     
     // Check navigation links are present
-    expect(screen.getByText('Shop')).toBeInTheDocument();
-    expect(screen.getByText('Categories')).toBeInTheDocument();
-    expect(screen.getByText('About')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
-  });
-
-  it('renders with transparent prop correctly', () => {
-    render(<Header transparent />);
-    
-    // Check logo is present in transparent mode
-    expect(screen.getByAltText('Auto Parts Shop')).toBeInTheDocument();
+    expect(screen.getByText('HOME')).toBeInTheDocument();
+    expect(screen.getByText('SHOP')).toBeInTheDocument();
+    expect(screen.getByText('CATEGORIES')).toBeInTheDocument();
+    expect(screen.getByText('ADMIN')).toBeInTheDocument();
   });
 }); 

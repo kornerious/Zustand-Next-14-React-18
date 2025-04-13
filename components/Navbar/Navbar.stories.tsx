@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Navbar from './Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React from 'react';
 
 const theme = createTheme();
 
@@ -12,7 +13,7 @@ const meta: Meta<typeof Navbar> = {
   },
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <ThemeProvider theme={theme}>
         <Story />
       </ThemeProvider>

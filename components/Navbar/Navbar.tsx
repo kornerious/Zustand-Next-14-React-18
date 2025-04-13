@@ -1,5 +1,5 @@
 "use client";
-import { useThemeStore } from "../store/themeStore";
+import { useThemeMode, useThemeActions } from "@/store/themeStore";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
@@ -10,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useTheme } from "@mui/material/styles";
 
 // ✅ JSONBin.io API Config
 const JSONBIN_API_KEY = process.env.NEXT_PUBLIC_JSONBIN_API_KEY || "";
@@ -21,12 +22,13 @@ interface Product {
 }
 
 export default function Navbar() {
-    const { toggleTheme, theme, loadTheme } = useThemeStore();
+    const mode = useThemeMode();
+    const { toggleMode } = useThemeActions();
+    const theme = useTheme();
     const [categories, setCategories] = useState<string[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
-        loadTheme();
         fetchCategories().catch(console.error);  // ✅ Properly handle Promise
     }, []);
 
@@ -102,8 +104,8 @@ export default function Navbar() {
                     Admin
                 </Button>
                 <Switch
-                    checked={theme.palette.mode === "dark"}
-                    onChange={toggleTheme}
+                    checked={mode === "dark"}
+                    onChange={toggleMode}
                     color="default"
                     sx={{ ml: "auto" }}
                 />

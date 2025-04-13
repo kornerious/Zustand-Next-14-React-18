@@ -1,8 +1,7 @@
 "use client";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, useTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect, useState } from "react";
-import { useThemeStore } from "@/store/themeStore";
 import Navbar from "@/components/Navbar";
 import { Box } from "@mui/material";
 
@@ -11,18 +10,12 @@ interface ClientLayoutProps {
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
-    const { theme, loadTheme } = useThemeStore();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        try {
-            loadTheme();
-            setMounted(true);
-        } catch (error) {
-            console.error('Error loading theme:', error);
-            setMounted(true); // Still render the app even if theme loading fails
-        }
-    }, [loadTheme]);
+        // Simply mark as mounted after the first render
+        setMounted(true);
+    }, []);
 
     // Prevent flash of incorrect theme
     if (!mounted) {
@@ -30,7 +23,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     }
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <CssBaseline />
             <Box
                 sx={{
@@ -53,6 +46,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                     {children}
                 </Box>
             </Box>
-        </ThemeProvider>
+        </>
     );
 } 

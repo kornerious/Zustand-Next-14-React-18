@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Navbar from './Navbar';
 
 // Mock the useRouter
@@ -13,6 +14,14 @@ jest.mock('next/navigation', () => ({
 jest.mock('@/store/cartStore', () => ({
   useCartStore: () => ({
     items: [{ id: 1, title: 'Test Product', price: 10, quantity: 1 }],
+  }),
+}));
+
+// Mock the theme store
+jest.mock('@/store/themeStore', () => ({
+  useThemeMode: () => 'light',
+  useThemeActions: () => ({
+    toggleMode: jest.fn(),
   }),
 }));
 
@@ -31,10 +40,10 @@ describe('Navbar Component', () => {
     expect(screen.getByText('1')).toBeInTheDocument();
   });
 
-  it('renders with transparent prop', () => {
-    render(<Navbar transparent />);
+  it('renders navbar elements correctly', () => {
+    render(<Navbar />);
     
-    // Even in transparent mode, logo should be visible
-    expect(screen.getByAltText('Auto Parts Shop')).toBeInTheDocument();
+    // Should have Shop link
+    expect(screen.getByText('Shop')).toBeInTheDocument();
   });
 }); 

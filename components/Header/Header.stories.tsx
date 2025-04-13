@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Header from './Header';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React from 'react';
 
 const theme = createTheme();
 
@@ -12,7 +13,7 @@ const meta: Meta<typeof Header> = {
   },
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <ThemeProvider theme={theme}>
         <Story />
       </ThemeProvider>

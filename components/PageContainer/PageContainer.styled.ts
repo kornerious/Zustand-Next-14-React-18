@@ -13,14 +13,16 @@ export const StyledContainer = styled(Container)(({ theme }) => ({
   flex: 1,
 }));
 
-export const PageTitle = styled(Typography)(({ theme }) => ({
+export const PageTitle = styled(Typography)({
   fontWeight: 600,
-  fontSize: { xs: '2.5rem', md: '3rem' },
-  color: theme.palette.text.primary,
+  fontSize: '2.5rem',
+  '@media (min-width:600px)': {
+    fontSize: '3rem',
+  },
   letterSpacing: '-0.03em',
-}));
+});
 
-export const PageSubtitle = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+export const PageSubtitle = styled(Typography)({
+  color: 'text.secondary',
   fontWeight: 400,
-})); 
+}); 

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { throttle } from "@/src/utils"; // ensure this utility exists
+import { throttle, memoize } from "@/src/utils"; 
 import { Product } from '@/types/product';
 
 // ✅ Define CartItem Type
@@ -17,65 +17,85 @@ interface CartState {
     clearCart: () => void;
     itemCount: number;
     total: number;
+    getItem: (productId: number) => CartItem | undefined;
+    getItemQuantity: (productId: number) => number;
+    isItemInCart: (productId: number) => boolean;
 }
 
-// Cache for total calculation
-let totalCache: number | null = null;
+// Memoized calculation functions for better performance
+const calculateItemCount = memoize((items: CartItem[]): number => {
+    return items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+});
 
-// ✅ Zustand Store (Optimized with Throttling and Type Safety)
+const calculateTotal = memoize((items: CartItem[]): number => {
+    return items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+});
+
+// ✅ Zustand Store (Optimized with Memoization and Type Safety)
 export const useCartStore = create<CartState>()(
     persist(
         (set, get) => ({
             items: [],
+            
+            // Add product to cart
             addToCart: (product: Product) => {
                 const { items } = get();
                 const existingItem = items.find(item => item.id === product.id);
 
+                let newItems: CartItem[];
                 if (existingItem) {
-                    set({
-                        items: items.map(item => 
-                            item.id === product.id 
-                                ? { ...item, quantity: (item.quantity || 1) + 1 } 
-                                : item
-                        ),
-                    });
+                    // Update existing item quantity
+                    newItems = items.map(item => 
+                        item.id === product.id 
+                            ? { ...item, quantity: (item.quantity || 1) + 1 } 
+                            : item
+                    );
                 } else {
-                    set({
-                        items: [...items, { ...product, quantity: 1 }],
-                    });
+                    // Add new item
+                    newItems = [...items, { ...product, quantity: 1 }];
                 }
                 
-                // Recalculate derived state after updating items
-                const updatedItems = get().items;
-                const itemCount = updatedItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const total = updatedItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-                
-                set({ itemCount, total });
+                // Update state with new items and calculated derived state
+                set({
+                    items: newItems,
+                    itemCount: calculateItemCount(newItems),
+                    total: calculateTotal(newItems)
+                });
             },
+            
+            // Remove product from cart
             removeFromCart: (productId: number) => {
                 const { items } = get();
-                const updatedItems = items.filter(item => item.id !== productId);
+                const newItems = items.filter(item => item.id !== productId);
                 
-                // Recalculate derived state after updating items
-                const itemCount = updatedItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const total = updatedItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-                
-                set({ items: updatedItems, itemCount, total });
+                set({
+                    items: newItems,
+                    itemCount: calculateItemCount(newItems),
+                    total: calculateTotal(newItems)
+                });
             },
+            
+            // Update quantity of a product
             updateQuantity: (productId: number, quantity: number) => {
                 const { items } = get();
-                const updatedItems = items.map(item => 
+                
+                // Ensure quantity is valid
+                const validQuantity = Math.max(1, quantity);
+                
+                const newItems = items.map(item => 
                     item.id === productId 
-                        ? { ...item, quantity } 
+                        ? { ...item, quantity: validQuantity } 
                         : item
                 );
                 
-                // Recalculate derived state after updating items
-                const itemCount = updatedItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const total = updatedItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-                
-                set({ items: updatedItems, itemCount, total });
+                set({
+                    items: newItems,
+                    itemCount: calculateItemCount(newItems),
+                    total: calculateTotal(newItems)
+                });
             },
+            
+            // Clear cart
             clearCart: () => {
                 set({ 
                     items: [],
@@ -83,19 +103,34 @@ export const useCartStore = create<CartState>()(
                     total: 0
                 });
             },
+            
+            // Helper selectors
+            getItem: (productId: number) => {
+                return get().items.find(item => item.id === productId);
+            },
+            
+            getItemQuantity: (productId: number) => {
+                return get().items.find(item => item.id === productId)?.quantity || 0;
+            },
+            
+            isItemInCart: (productId: number) => {
+                return get().items.some(item => item.id === productId);
+            },
+            
+            // Initial derived state
             itemCount: 0,
             total: 0,
         }),
         {
             name: "cart-storage",
             version: 1,
-            partialize: (state) => ({ items: state.items, itemCount: state.itemCount, total: state.total }),
+            partialize: (state) => ({ items: state.items }),
             onRehydrateStorage: () => (state) => {
                 if (state) {
-                    state.total = state.items.reduce(
-                        (sum, item) => sum + item.price * item.quantity,
-                        0
-                    );
+                    // Recalculate derived state on rehydration
+                    const items = state.items || [];
+                    state.itemCount = calculateItemCount(items);
+                    state.total = calculateTotal(items);
                 }
             }
         }
