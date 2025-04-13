@@ -1,26 +1,31 @@
-"use client";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { useEffect } from "react";
-import { useThemeStore } from "../store/themeStore";
-import Navbar from "../components/Navbar";
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
+import ThemeProvider from './providers/ThemeProvider';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const { theme, loadTheme } = useThemeStore();
+const inter = Inter({
+    subsets: ["latin"],
+    weight: ['300', '400', '500', '600', '700'],
+    display: 'swap',
+    variable: '--font-inter',
+});
 
-    useEffect(() => {
-        loadTheme();
-    }, []);
+export const metadata: Metadata = {
+    title: "Auto Parts Shop",
+    description: "Premium quality auto parts for your vehicle's performance and style",
+};
 
+export default function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
-        <html lang="en">
-        <body>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Navbar />
-            {children}
-        </ThemeProvider>
-        </body>
+        <html lang="en" className={inter.variable}>
+            <body>
+                <ThemeProvider>
+                    {children}
+                </ThemeProvider>
+            </body>
         </html>
     );
 }
