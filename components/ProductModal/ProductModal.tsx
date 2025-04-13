@@ -144,7 +144,7 @@ const ProductModal = memo(({
                       alt={product.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      style={{ objectFit: 'contain' }}
+                      style={{ objectFit: 'cover' }}
                       priority
                       quality={90}
                       onLoadingComplete={() => {
