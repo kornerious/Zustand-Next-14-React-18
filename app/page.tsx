@@ -123,8 +123,10 @@ export default function Home() {
                 alt="Auto Parts Hero"
                 fill
                 priority
+                sizes="100vw"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
                 quality={85}
+                unoptimized
                 placeholder="blur"
                 blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMyMjIyMjIiLz48L3N2Zz4="
             />

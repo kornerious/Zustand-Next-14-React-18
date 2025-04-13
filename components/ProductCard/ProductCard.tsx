@@ -171,10 +171,12 @@ const ProductCard = memo(({
                                     objectFit: 'cover'
                                 }}
                                 priority={priority}
-                                loading={priority ? "eager" : "lazy"}
+                                sizes="(max-width: 768px) 100vw, 300px"
+                                loading={priority ? "eager" : "eager"}
                                 quality={85}
                                 onLoadingComplete={handleImageLoad}
                                 onError={handleImageError}
+                                unoptimized
                             />
                         ) : (
                             <Box

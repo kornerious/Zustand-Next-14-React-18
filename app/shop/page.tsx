@@ -304,51 +304,6 @@ function ShopPageContent() {
         }
     };
 
-    // Add image optimization function
-    const optimizeImageLoading = useCallback(() => {
-        // Preload critical images and optimize loading strategy
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target.querySelector('img');
-                    if (img && img.dataset.src) {
-                        img.src = img.dataset.src;
-                        imageObserver.unobserve(entry.target);
-                    }
-                }
-            });
-        });
-        
-        // Create a throttled function with proper cleanup
-        const throttledObserve = throttle(() => {
-            const containers = document.querySelectorAll('.product-image-container');
-            if (containers.length > 0) {
-                containers.forEach(container => imageObserver.observe(container));
-            }
-        }, 200);
-        
-        // Call the throttled function
-        throttledObserve();
-        
-        // Return cleanup function
-        return () => {
-            throttledObserve.cancel();
-            imageObserver.disconnect();
-        };
-    }, []);
-    
-    useEffect(() => {
-        let cleanup: (() => void) | undefined;
-        
-        if (!loading && filteredProducts.length > 0) {
-            cleanup = optimizeImageLoading();
-        }
-        
-        return () => {
-            if (cleanup) cleanup();
-        };
-    }, [loading, filteredProducts, optimizeImageLoading]);
-
     if (loading) {
         return (
             <Layout>
