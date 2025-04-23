@@ -2,6 +2,7 @@ const path = require('path');
 
 /** @type { import('@storybook/nextjs').StorybookConfig } */
 const config = {
+  staticDirs: ['../public'],
   stories: [
     '../components/**/*.stories.@(js|jsx|ts|tsx)',
     '../app/**/*.stories.@(js|jsx|ts|tsx)'

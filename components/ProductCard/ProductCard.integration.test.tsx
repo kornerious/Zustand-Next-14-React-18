@@ -1,14 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProductCard from './ProductCard';
+import { Product } from '@/types/product';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-// Mock next/navigation
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-  }),
-}));
 
 // Mock the cart store
 jest.mock('@/store/cartStore', () => ({
@@ -19,7 +13,7 @@ jest.mock('@/store/cartStore', () => ({
 }));
 
 // Mock product data
-const mockProduct = {
+const mockProduct: Product = {
   id: 1,
   title: 'Premium Engine Oil',
   price: 49.99,
@@ -50,6 +44,11 @@ describe('ProductCard Integration Tests', () => {
     mockViewDetails.mockClear();
   });
 
+  beforeEach(() => {
+    // Mock fetch if ProductCard makes any fetch calls (unlikely but good practice)
+    // (global.fetch as jest.Mock).mockResolvedValue({ ... });
+  });
+
   it('integrates with theme correctly', () => {
     renderWithTheme(
       <ProductCard 
@@ -66,17 +65,21 @@ describe('ProductCard Integration Tests', () => {
     expect(screen.getByText(/49\.99/)).toBeInTheDocument();
   });
 
-  it('handles add to cart interaction with styled button', () => {
-    renderWithTheme(
+  it('handles add to cart interaction with styled button', async () => {
+    const { container } = renderWithTheme(
       <ProductCard 
         product={mockProduct} 
         onAddToCart={mockAddToCart}
         onViewDetails={mockViewDetails}
+        priority={false}
       />
     );
     
-    // Find and click the styled "Add to Cart" button
-    const addButton = screen.getByText(/add to cart/i);
+    // Find the button directly, without relying on CardActions container
+    const addButton = await screen.findByRole('button', { name: /add to cart|add again/i });
+    expect(addButton).toBeInTheDocument();
+
+    // Simulate click
     fireEvent.click(addButton);
     
     // Verify the callback was called
@@ -84,25 +87,30 @@ describe('ProductCard Integration Tests', () => {
     expect(mockAddToCart).toHaveBeenCalledWith(mockProduct);
   });
 
-  it('handles view details interaction when clicking the card', () => {
+  it('handles view details interaction when clicking the card', async () => {
     renderWithTheme(
-      <ProductCard 
-        product={mockProduct} 
+      <ProductCard
+        product={mockProduct}
         onAddToCart={mockAddToCart}
         onViewDetails={mockViewDetails}
+        priority={false}
       />
     );
+
+    // Find the main Paper element containing the product title
+    const paperElement = await screen.findByText(mockProduct.title).then(el => el.closest('.MuiPaper-root'));
     
-    // Find and click the paper element containing the card
-    const paperElement = screen.getByText('Premium Engine Oil').closest('div');
-    expect(paperElement).not.toBeNull();
+    if (!paperElement) {
+        throw new Error('Cannot find the main Paper container for the card');
+    }
     
-    if (paperElement) {
-      fireEvent.click(paperElement);
-      
-      // Verify the callback was called with the product
+    // Click the paper element
+    fireEvent.click(paperElement);
+
+    // Verify the callback was called
+    await waitFor(() => {
       expect(mockViewDetails).toHaveBeenCalledTimes(1);
       expect(mockViewDetails).toHaveBeenCalledWith(mockProduct);
-    }
+    });
   });
 }); 

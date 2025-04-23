@@ -18,7 +18,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Button from '@/components/Button';
 import { formatPrice } from '@/src/utils';
 import { useCartStore } from '@/store/cartStore';
-import { useRouter } from 'next/navigation';
+import { useRouter as useNextRouter } from 'next/navigation';
+
 
 interface ProductModalProps {
   product: Product;
@@ -38,18 +39,25 @@ interface ProductModalProps {
  * - Clean state management with refs for tracking
  * - Proper cleanup to prevent memory leaks
  */
+interface ProductModalStorybookRouter {
+  push: (path: string) => void;
+  replace?: (path: string) => void;
+  [key: string]: any;
+}
+
 const ProductModal = memo(({
   product,
   open,
   onClose,
   onAddToCart,
-  redirectToCart = true
-}: ProductModalProps) => {
+  redirectToCart = true,
+  router: injectedRouter
+}: ProductModalProps & { router?: ProductModalStorybookRouter }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const productIdRef = useRef<number | null>(null);
   const isMounted = useRef(true);
-  const router = useRouter();
+  const router = injectedRouter || useNextRouter();
   const isInCart = useCartStore(state => state.isItemInCart(product.id));
   
   // Reset loading state when product changes
@@ -195,7 +203,7 @@ const ProductModal = memo(({
                       style={{ objectFit: 'cover' }}
                       priority
                       quality={90}
-                      onLoadingComplete={handleImageLoad}
+                      onLoad={handleImageLoad}
                       onError={handleImageError}
                     />
                   )}

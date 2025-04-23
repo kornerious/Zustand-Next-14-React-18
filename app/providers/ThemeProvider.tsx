@@ -98,6 +98,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     return baseTheme;
   }, [mode, colorKey]);
 
+  console.log('[ThemeProvider]', { mode, colorKey, primary: theme.palette.primary });
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />

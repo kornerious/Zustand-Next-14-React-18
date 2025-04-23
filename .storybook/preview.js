@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { withNextRouter } from './NextRouterDecorator';
 
 const darkTheme = createTheme({
   palette: {
@@ -33,6 +34,7 @@ const preview = {
     },
   },
   decorators: [
+    withNextRouter,
     withThemeFromJSXProvider({
       themes: {
         light: lightTheme,

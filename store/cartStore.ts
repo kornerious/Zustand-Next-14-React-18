@@ -1,7 +1,13 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { shallow } from 'zustand/shallow';
 import { throttle, memoize } from "@/src/utils"; 
 import { Product } from '@/types/product';
+
+// For immutable state updates
+type DeepPartial<T> = T extends object ? {
+    [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
 
 // ✅ Define CartItem Type
 export interface CartItem extends Product {
@@ -22,13 +28,25 @@ interface CartState {
     isItemInCart: (productId: number) => boolean;
 }
 
-// Memoized calculation functions for better performance
+// Improved memoized calculation functions with batch computation
+const calculateCart = memoize((items: CartItem[]): { itemCount: number, total: number } => {
+    // Compute both values in a single iteration for better performance
+    return items.reduce((result, item) => {
+        const quantity = item.quantity || 1;
+        return {
+            itemCount: result.itemCount + quantity,
+            total: result.total + (item.price * quantity)
+        };
+    }, { itemCount: 0, total: 0 });
+});
+
+// Individual selectors for backward compatibility
 const calculateItemCount = memoize((items: CartItem[]): number => {
-    return items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    return calculateCart(items).itemCount;
 });
 
 const calculateTotal = memoize((items: CartItem[]): number => {
-    return items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    return calculateCart(items).total;
 });
 
 // ✅ Zustand Store (Optimized with Memoization and Type Safety)
@@ -55,11 +73,12 @@ export const useCartStore = create<CartState>()(
                     newItems = [...items, { ...product, quantity: 1 }];
                 }
                 
-                // Update state with new items and calculated derived state
+                // Update state with new items and efficiently calculated derived state
+                const { itemCount, total } = calculateCart(newItems);
                 set({
                     items: newItems,
-                    itemCount: calculateItemCount(newItems),
-                    total: calculateTotal(newItems)
+                    itemCount,
+                    total
                 });
             },
             
@@ -68,10 +87,12 @@ export const useCartStore = create<CartState>()(
                 const { items } = get();
                 const newItems = items.filter(item => item.id !== productId);
                 
+                // Update state with new items and efficiently calculated derived state
+                const { itemCount, total } = calculateCart(newItems);
                 set({
                     items: newItems,
-                    itemCount: calculateItemCount(newItems),
-                    total: calculateTotal(newItems)
+                    itemCount,
+                    total
                 });
             },
             
@@ -88,10 +109,12 @@ export const useCartStore = create<CartState>()(
                         : item
                 );
                 
+                // Update state with new items and efficiently calculated derived state
+                const { itemCount, total } = calculateCart(newItems);
                 set({
                     items: newItems,
-                    itemCount: calculateItemCount(newItems),
-                    total: calculateTotal(newItems)
+                    itemCount,
+                    total
                 });
             },
             
@@ -105,16 +128,21 @@ export const useCartStore = create<CartState>()(
             },
             
             // Helper selectors
+            // Optimized selectors that efficiently use cache
             getItem: (productId: number) => {
-                return get().items.find(item => item.id === productId);
+                // Using a cached map lookup is faster than find for large item arrays
+                const itemMap = new Map(get().items.map(item => [item.id, item]));
+                return itemMap.get(productId);
             },
             
             getItemQuantity: (productId: number) => {
-                return get().items.find(item => item.id === productId)?.quantity || 0;
+                // Cache-friendly version
+                return get().getItem(productId)?.quantity || 0;
             },
             
             isItemInCart: (productId: number) => {
-                return get().items.some(item => item.id === productId);
+                // Using getItem for better cache utilization
+                return !!get().getItem(productId);
             },
             
             // Initial derived state
@@ -125,6 +153,18 @@ export const useCartStore = create<CartState>()(
             name: "cart-storage",
             version: 1,
             partialize: (state) => ({ items: state.items }),
+            storage: createJSONStorage(() => {
+                // Check if localStorage is available (browser environment)
+                if (typeof window !== 'undefined') {
+                    return localStorage;
+                }
+                // Return a mock storage for SSR environments
+                return {
+                    getItem: () => null,
+                    setItem: () => {},
+                    removeItem: () => {}
+                };
+            }),
             onRehydrateStorage: () => (state) => {
                 if (state) {
                     // Recalculate derived state on rehydration

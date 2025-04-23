@@ -1,12 +1,31 @@
 'use client';
 
-import { Fragment, useState, useCallback, memo, useRef, useEffect } from 'react';
+import { Fragment, useState, useCallback, memo, useRef, useEffect, useMemo } from 'react';
 import { Grid, Box, CircularProgress, Typography } from '@mui/material';
 import { Product } from '@/types/product';
-import ProductCard from '@/components/ProductCard';
-import ProductModal from '@/components/ProductModal';
+import dynamic from 'next/dynamic';
 import { ProductGridProps } from './ProductGrid.types';
 import { GridContainer, ErrorContainer, LoadingContainer } from './ProductGrid.styled';
+
+// Dynamic imports for better code splitting
+const ProductCard = dynamic(() => import('@/components/ProductCard'), {
+  ssr: false,
+  loading: () => (
+    <Box sx={{ 
+      height: '320px', 
+      bgcolor: 'rgba(0,0,0,0.04)',
+      borderRadius: 2,
+      p: 2,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <CircularProgress size={30} />
+    </Box>
+  )
+});
+
+const ProductModal = dynamic(() => import('@/components/ProductModal'), { ssr: false });
 
 /**
  * ProductGrid component displays a grid of products with loading, error states and modal interaction.
@@ -18,12 +37,12 @@ import { GridContainer, ErrorContainer, LoadingContainer } from './ProductGrid.s
  * - Performance optimizations for large product lists
  */
 const ProductGrid = memo(({
-  products,
+  products = [],
   loading,
   error,
   onAddToCart,
   emptyMessage = 'No products found.',
-  columns,
+
   fullWidth = false,
   spacing = 4,
   categoryKey,
@@ -34,40 +53,47 @@ const ProductGrid = memo(({
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [visibleRange, setVisibleRange] = useState({ start: 0, end: 12 });
   
-  // Progressive loading for large product lists
+  // Enhanced progressive loading with intersection observer for better performance
   useEffect(() => {
-    if (products.length > 24) {
-      // Initial load of first batch
-      setVisibleRange({ start: 0, end: 12 });
-      
-      const handleScroll = () => {
-        if (!gridRef.current) return;
-        
-        const rect = gridRef.current.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-        
-        if (isVisible && visibleRange.end < products.length) {
-          // Load more products as user scrolls
+    // Set initial visible range based on product count
+    const safeProducts = products ?? [];
+    const initialCount = safeProducts.length > 24 ? 12 : safeProducts.length;
+    setVisibleRange({ start: 0, end: initialCount });
+    
+    if (!gridRef.current || safeProducts.length <= initialCount) return;
+    
+    // Use IntersectionObserver for more efficient scroll detection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleRange.end < safeProducts.length) {
+          // Load more products when bottom of grid becomes visible
           setVisibleRange(prev => ({
             start: prev.start,
-            end: Math.min(prev.end + 12, products.length)
+            end: Math.min(prev.end + (safeProducts.length > 50 ? 8 : 12), safeProducts.length)
           }));
         }
-      };
-      
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    } else {
-      // For smaller lists, show all products
-      setVisibleRange({ start: 0, end: products.length });
-    }
-  }, [products.length]);
+      },
+      { threshold: 0.1, rootMargin: '200px' } // Load more before user reaches the end
+    );
+    
+    // Create a sentinel element to observe
+    const sentinel = document.createElement('div');
+    sentinel.style.height = '10px';
+    gridRef.current.appendChild(sentinel);
+    observer.observe(sentinel);
+    
+    return () => {
+      if (sentinel.parentNode) sentinel.parentNode.removeChild(sentinel);
+      observer.disconnect();
+    };
+  }, [products?.length]);
   
   // Reset modal state when products change
   useEffect(() => {
+    const safeProducts = products ?? [];
     if (modalOpen && selectedProduct) {
       // If the selected product is no longer in the products list, close the modal
-      const stillExists = products.some(p => p.id === selectedProduct.id);
+      const stillExists = safeProducts.some(p => p.id === selectedProduct.id);
       if (!stillExists) {
         handleCloseModal();
       }
@@ -98,13 +124,16 @@ const ProductGrid = memo(({
     onAddToCart(product);
   }, [onAddToCart]);
 
-  // Create a memoized visibleProducts array
-  const visibleProducts = products.slice(0, visibleRange.end);
+  // Memoize the visible products to prevent unnecessary re-renders
+  const safeProducts = products ?? [];
+  const visibleProducts = useMemo(() => {
+    return safeProducts.slice(0, visibleRange.end);
+  }, [safeProducts, visibleRange.end]);
   
   // Loading state
   if (loading) {
     return (
-      <LoadingContainer>
+      <LoadingContainer data-testid="product-grid-loading">
         <CircularProgress size={60} thickness={4} />
         <Typography variant="body1" sx={{ mt: 2 }}>
           Loading products...
@@ -116,7 +145,7 @@ const ProductGrid = memo(({
   // Error state 
   if (error) {
     return (
-      <ErrorContainer>
+      <ErrorContainer data-testid="product-grid-error">
         <Typography variant="body1" color="error">
           {error}
         </Typography>
@@ -125,9 +154,9 @@ const ProductGrid = memo(({
   }
 
   // Empty state
-  if (!products.length) {
+  if (!products || !products.length) {
     return (
-      <ErrorContainer>
+      <ErrorContainer data-testid="product-grid-empty">
         <Typography variant="body1">{emptyMessage}</Typography>
       </ErrorContainer>
     );
@@ -142,27 +171,33 @@ const ProductGrid = memo(({
           ...(fullWidth ? { maxWidth: '100%' } : {}),
           transition: 'opacity 0.3s ease-in-out' 
         }}
+        data-testid="product-grid"
       >
         <Grid container spacing={spacing}>
-          {visibleProducts.map((product, index) => (
-            <Grid 
-              item 
-              key={`${product.id}-${categoryKey || 'all'}`} // Add categoryKey to prevent stale renders when switching categories
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              xl={3}
-            >
-              <ProductCard
-                product={product}
-                onAddToCart={handleAddToCart}
-                onViewDetails={handleOpenModal}
-                priority={index < 4} // Only prioritize loading for first 4 products
-                redirectToCart={false} // Don't redirect when adding from grid to avoid jarring UX
-              />
-            </Grid>
-          ))}
+          {visibleProducts.map((product, index) => {
+            // Skip rendering items that are way off-screen
+            if (index > visibleRange.end + 8) return null;
+            
+            return (
+              <Grid 
+                item 
+                key={`${product.id}-${categoryKey || 'all'}`}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={3}
+              >
+                <ProductCard
+                  product={product}
+                  onAddToCart={handleAddToCart}
+                  onViewDetails={handleOpenModal}
+                  priority={index < 4} // Only prioritize loading for first 4 products
+                  redirectToCart={false}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
         
         {/* Show loading indicator when loading more products */}

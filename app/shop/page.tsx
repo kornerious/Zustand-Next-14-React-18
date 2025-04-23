@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback, useRef, Suspense } from "react";
+import React, { useEffect, useState, useCallback, useRef, Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Modal, 
@@ -280,28 +280,45 @@ function ShopPageContent() {
     }, [addToCart]);
 
     // Get unique categories for tabs
-    const categories = ['ALL', ...Array.from(new Set(products.map(product => product.category.toUpperCase())))];
+    const categories = useMemo(() => {
+        // Make sure products is defined and has items
+        if (!products || products.length === 0) {
+            return ['ALL'];
+        }
+        // Extract unique categories
+        const uniqueCategories = new Set();
+        products.forEach(product => {
+            if (product.category) {
+                uniqueCategories.add(product.category.toUpperCase());
+            }
+        });
+        return ['ALL', ...Array.from(uniqueCategories)];
+    }, [products]);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-        const selectedCategory = categories[newValue];
+        const selectedCategory = categories[newValue] as string;
         const newCategoryKey = selectedCategory === 'ALL' ? 'all' : selectedCategory.toLowerCase();
         
         // Skip redundant updates if the category hasn't changed
         if (prevCategoryRef.current === newCategoryKey) return;
         
+        console.log(`[DEBUG-NAV] Tab changed to category: ${selectedCategory}`);
+        
         prevCategoryRef.current = newCategoryKey;
         setCategoryKey(newCategoryKey);
         setActiveTab(newValue);
-        router.push(selectedCategory === 'ALL' ? '/shop' : `/shop?category=${selectedCategory.toLowerCase()}`);
         
-        // Use functional updates to ensure we're using the latest state
-        if (selectedCategory === 'ALL') {
-            setFilteredProducts(products);
-        } else {
-            setFilteredProducts(
-                products.filter(p => p.category.toUpperCase() === selectedCategory)
-            );
-        }
+        // Just update the filtered products without changing the URL
+        setFilteredProducts(
+            selectedCategory === 'ALL' 
+                ? products 
+                : products.filter(p => {
+                    const productCategory = p.category?.toUpperCase() || '';
+                    return productCategory === selectedCategory;
+                })
+        );
+        
+        console.log(`[DEBUG-NAV] Filtered to ${selectedCategory} category on the same page`);
     };
 
     if (loading) {
@@ -387,7 +404,7 @@ function ShopPageContent() {
                             }
                         }}
                     >
-                        {categories.map((category, index) => (
+                        {(categories as string[]).map((category: string, index: number) => (
                             <Tab key={index} label={category} />
                         ))}
                     </Tabs>
@@ -414,14 +431,6 @@ function ShopPageContent() {
                     <Button 
                         variant="contained" 
                         onClick={() => router.push("/")}
-                        sx={{ 
-                            bgcolor: '#222 !important',
-                            color: 'rgba(255, 255, 255, 0.9) !important',
-                            border: '1px solid #333 !important',
-                            '&:hover': {
-                                bgcolor: '#333 !important'
-                            }
-                        }}
                     >
                         Back to Home
                     </Button>

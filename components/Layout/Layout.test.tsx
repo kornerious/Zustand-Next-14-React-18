@@ -1,11 +1,25 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Layout from './Layout';
+import '@testing-library/jest-dom';
 
-// Mock the Header component
-jest.mock('@/components/Header/Header', () => {
-  return function MockHeader() {
-    return <div data-testid="mock-header">Header Mock</div>;
-  };
+// Mock next/dynamic to return the correct specific mock based on the loader
+jest.mock('next/dynamic', () => (loader: () => Promise<{ default: React.ComponentType<any> }>) => {
+  // Convert the loader function to string to inspect its content
+  // This is a heuristic and might be fragile
+  const loaderString = String(loader);
+
+  // Adjust these conditions based on the console output from the test run
+  if (loaderString.includes('Header')) { 
+    // Return the Header mock if the loader seems to import Header
+    return () => <div data-testid="mock-header">Mock Header</div>;
+  }
+  if (loaderString.includes('Footer')) { 
+    // Return the Footer mock if the loader seems to import Footer
+    return () => <div data-testid="mock-footer">Mock Footer</div>;
+  }
+  // Default fallback (optional, might not be needed if Layout only loads Header/Footer)
+  return () => <div data-testid="generic-dynamic-mock">Generic Mock</div>;
 });
 
 describe('Layout Component', () => {
@@ -24,13 +38,15 @@ describe('Layout Component', () => {
   it('maintains correct structure with main content area', () => {
     render(
       <Layout>
-        <div>Content</div>
+        <div>Child Content</div>
       </Layout>
     );
-
-    // Main content should be inside a main element
+    // Check for main element structure
     const mainElement = screen.getByRole('main');
     expect(mainElement).toBeInTheDocument();
-    expect(mainElement).toHaveTextContent('Content');
+    expect(mainElement).toContainHTML('<div>Child Content</div>');
+
+    // Expect footer mock to be present
+    expect(screen.getByTestId('mock-footer')).toBeInTheDocument();
   });
 });

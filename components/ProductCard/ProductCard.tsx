@@ -1,9 +1,10 @@
 "use client";
-import {Card, CardContent, Typography, Button, Box, Stack, Snackbar, Alert, Skeleton, Fade, Paper, Rating} from "@mui/material";
+import {Card, CardContent, Typography, Box, Stack, Snackbar, Alert, Skeleton, Fade, Paper, Rating, CardActions, CardActionArea} from "@mui/material";
+import ProductActionButton from "./ProductActionButton";
 import {useState, memo, useEffect, useRef, useCallback} from "react";
 import Image from "next/image";
 import {Product} from "@/types/product";
-import { useRouter } from "next/navigation";
+import { useRouter as useNextRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/src/utils";
 
@@ -25,19 +26,26 @@ interface ProductCardProps {
  * - Clean state management with refs for tracking
  * - Proper cleanup to prevent memory leaks
  */
+interface ProductCardStorybookRouter {
+    push: (path: string) => void;
+    replace?: (path: string) => void;
+    [key: string]: any;
+}
+
 const ProductCard = memo(({
     product, 
     onAddToCart, 
     onViewDetails, 
     priority = false,
-    redirectToCart = true
-}: ProductCardProps) => {
+    redirectToCart = true,
+    router: injectedRouter
+}: ProductCardProps & { router?: ProductCardStorybookRouter }) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [imageLoading, setImageLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
     const productIdRef = useRef<number | null>(null);
     const isMounted = useRef(true);
-    const router = useRouter();
+    const router = injectedRouter || useNextRouter();
     const isInCart = useCartStore(state => state.isItemInCart(product.id));
     
     // Reset loading state when product changes to prevent blinking
@@ -68,7 +76,10 @@ const ProductCard = memo(({
 
     // Memoize event handlers to prevent unnecessary re-renders
     const handleAddToCart = useCallback((e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent bubbling to card click
+        e.preventDefault(); // Use preventDefault instead of stopPropagation
+        e.stopPropagation(); // Also prevent bubbling to card click
+        
+        // First add to cart
         onAddToCart(product);
         setSnackbarOpen(true);
         
@@ -86,7 +97,11 @@ const ProductCard = memo(({
         setSnackbarOpen(false);
     }, []);
     
-    const handleProductClick = useCallback(() => {
+    const handleProductClick = useCallback((e?: React.MouseEvent) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         onViewDetails(product);
     }, [product, onViewDetails]);
 
@@ -109,6 +124,7 @@ const ProductCard = memo(({
         <>
             <Paper
                 elevation={0}
+                component="article"
                 sx={{
                     height: '100%',
                     display: 'flex',
@@ -122,7 +138,8 @@ const ProductCard = memo(({
                         transform: 'translateY(-4px)',
                         boxShadow: '0 12px 40px rgba(0,0,0,0.15)'
                     },
-                    cursor: 'pointer'
+                    position: 'relative',
+                    zIndex: 1
                 }}
                 onClick={handleProductClick}
             >
@@ -171,12 +188,10 @@ const ProductCard = memo(({
                                     objectFit: 'cover'
                                 }}
                                 priority={priority}
-                                sizes="(max-width: 768px) 100vw, 300px"
-                                loading={priority ? "eager" : "eager"}
+                                sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, (max-width: 1200px) 33vw, 25vw"
                                 quality={85}
-                                onLoadingComplete={handleImageLoad}
+                                onLoad={handleImageLoad}
                                 onError={handleImageError}
-                                unoptimized
                             />
                         ) : (
                             <Box
@@ -259,38 +274,16 @@ const ProductCard = memo(({
                         {formatPrice(product.price)}
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevent triggering card click
-                                handleProductClick();
-                            }}
-                            sx={{
-                                backgroundColor: '#212121',
-                                color: '#ffffff',
-                                '&:hover': {
-                                    backgroundColor: '#303030',
-                                }
-                            }}
-                        >
-                            View Details
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            fullWidth
+                        <ProductActionButton
+                            label="View Details"
+                            onClick={handleProductClick}
+                            color="light"
+                        />
+                        <ProductActionButton
+                            label={isInCart ? 'Add Again' : 'Add to Cart'}
                             onClick={handleAddToCart}
-                            sx={{
-                                borderColor: '#555555',
-                                color: '#ffffff',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                                    borderColor: '#777777',
-                                }
-                            }}
-                        >
-                            {isInCart ? 'Add Again' : 'Add to Cart'}
-                        </Button>
+                            color="secondary"
+                        />
                     </Stack>
                 </CardContent>
             </Paper>

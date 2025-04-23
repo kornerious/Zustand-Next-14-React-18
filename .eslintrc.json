@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -25,6 +25,7 @@
     "Five9SocialWidget": true,
     "Five9ChatPlugin": true,
     "Five9ChatSetVariable": true,
+    "Five9ChatGetVariable": true,
     "Five9ChatSetOption": true,
     "Five9ChatConfirmEnd": true,
     "Five9ChatCancelEnd": true,
@@ -42,12 +43,10 @@
     "globalThis": true
   },
   "extends": [
-    "next/core-web-vitals",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:storybook/recommended"
+    "plugin:react/recommended"
   ],
   "settings": {
     "react": {
@@ -67,12 +66,10 @@
         "node": true
       },
       "extends": [
-        "plugin:@nx/typescript",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:storybook/recommended"
+        "plugin:react/recommended"
       ],
       "rules": {
         "no-unused-vars": "warn",
@@ -158,7 +155,7 @@
         "NodeJS": true,
         "globalThis": true
       },
-      "plugins": ["@nx", "@typescript-eslint", "react", "react-hooks"],
+      "plugins": ["@typescript-eslint", "react", "react-hooks"],
       "parserOptions": {
         "ecmaFeatures": {
           "experimentalObjectRestSpread": true,
@@ -170,7 +167,7 @@
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
+      "extends": [],
       "rules": {
         "react/prop-types": 0
       }

@@ -1,110 +1,97 @@
-"use client";
-import { useEffect, useState, useCallback, Suspense } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import {
-    Box, Typography, CircularProgress, Container
-} from "@mui/material";
-import { useCartStore } from "@/store/cartStore";
-import { Product } from "@/types/product";
-import PageContainer from '@/components/PageContainer';
-import ProductGrid from '@/components/ProductGrid';
+// app/shop/[category]/page.tsx - CORRECTED REFACTOR
+import React from 'react';
+import Layout from '@/components/Layout';
+import CategoryPageClient from '@/components/CategoryPageClient/CategoryPageClient';
+import { fetchProductsByCategory, fetchCategories } from '@/lib/dataFetch';
+import { Product } from '@/types/product';
+import { notFound } from 'next/navigation';
 
-// Cache for product data
-const productCache = new Map<string, Product[]>();
-
-// Loading fallback component
-function CategoryPageLoading() {
-  return (
-    <PageContainer title="Loading Category" subtitle="Please wait...">
-      <Box 
-        sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          minHeight: '60vh' 
-        }}
-      >
-        <CircularProgress size={60} thickness={4} />
-      </Box>
-    </PageContainer>
-  );
+interface CategoryPageProps {
+    params: { category: string };
 }
 
-// Main category page component that uses params
-function CategoryPageContent() {
-    const { category } = useParams();
-    const router = useRouter();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const addToCart = useCartStore(state => state.addToCart);
+// Optional: Generate static paths for known categories at build time
+export async function generateStaticParams() {
+    // Ensure fallback categories are fetched if API fails or is slow
+    const categories = await fetchCategories().catch(() => {
+        console.warn("Failed to fetch categories for generateStaticParams, using fallback.");
+        // Use the same fallback as defined in dataFetch.ts if possible
+        return ["ENGINE", "BRAKES", "LIGHTING", "EXHAUST", "SUSPENSION", "ACCESSORIES"]; 
+    });
+    return categories.map((category) => ({
+        category: category.toLowerCase(),
+    }));
+}
 
-    // Memoize product fetching
-    const fetchProducts = useCallback(async () => {
-        try {
-            const response = await fetch(`https://api.jsonbin.io/v3/b/${process.env.NEXT_PUBLIC_JSONBIN_ID}/latest`, {
-                headers: {
-                    'X-Master-Key': process.env.NEXT_PUBLIC_JSONBIN_API_KEY || ''
-                },
-                next: { revalidate: 60 } // Cache for 60 seconds
-            });
-
-            if (!response.ok) throw new Error('Failed to fetch products');
-
-            const data = await response.json();
-            const allProducts = data.record?.products || [];
-            const filteredProducts = allProducts.filter((product: Product) => product.category === category);
-            
-            if (filteredProducts.length === 0) {
-                setError(`No products found in category: ${category}`);
-            } else {
-                productCache.set(category as string, filteredProducts);
-                setProducts(filteredProducts);
-                setError(null);
+export default async function CategoryPage({ params }: CategoryPageProps) {
+    // Decode and normalize the category URL parameter
+    const categoryName = decodeURIComponent(params.category); 
+    console.log(`[DEBUG-ROUTE] Category page requested with category param: "${categoryName}"`);
+    
+    // Get all valid categories and normalize them
+    const validCategories = await fetchCategories();
+    const normalizedCategoryName = categoryName.trim().toUpperCase();
+    const normalizedValidCategories = validCategories.map(cat => cat.trim().toUpperCase());
+    
+    console.log(`[DEBUG-ROUTE] Checking if "${categoryName}" is valid among: ${JSON.stringify(normalizedValidCategories)}`);
+    
+    // First check exact match (case insensitive)
+    let isValidCategory = normalizedValidCategories.includes(normalizedCategoryName);
+    let targetCategory = categoryName;
+    
+    // If no exact match, try fuzzy matching for singular/plural forms
+    if (!isValidCategory) {
+        console.log(`[DEBUG-ROUTE] No exact match found for "${categoryName}", trying fuzzy matching...`);
+        
+        // Special case handling for common categories
+        if (normalizedCategoryName === 'BRAKE') {
+            const brakesCategory = normalizedValidCategories.find(cat => cat === 'BRAKES');
+            if (brakesCategory) {
+                const originalCaseCategory = validCategories[normalizedValidCategories.indexOf(brakesCategory)];
+                isValidCategory = true;
+                targetCategory = originalCaseCategory;
+                console.log(`[DEBUG-ROUTE] Found special case match: "${originalCaseCategory}" for "${categoryName}"`);
             }
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            setError(error instanceof Error ? error.message : 'An error occurred');
-        } finally {
-            setLoading(false);
         }
-    }, [category]);
-
-    useEffect(() => {
-        const cachedProducts = productCache.get(category as string);
-        if (cachedProducts) {
-            setProducts(cachedProducts);
-            setLoading(false);
+        // General plural/singular handling if special case didn't match
+        else if (normalizedCategoryName.endsWith('S')) {
+            // Try removing 's' at the end
+            const singularForm = normalizedCategoryName.slice(0, -1);
+            const matchingCategory = normalizedValidCategories.find(cat => cat.startsWith(singularForm));
+            
+            if (matchingCategory) {
+                const originalCaseCategory = validCategories[normalizedValidCategories.indexOf(matchingCategory)];
+                isValidCategory = true;
+                targetCategory = originalCaseCategory;
+                console.log(`[DEBUG-ROUTE] Found plural match: "${originalCaseCategory}" for "${categoryName}"`);
+            }
         } else {
-            fetchProducts();
+            // Try adding 's' at the end
+            const pluralForm = normalizedCategoryName + 'S';
+            if (normalizedValidCategories.includes(pluralForm)) {
+                const originalCaseCategory = validCategories[normalizedValidCategories.indexOf(pluralForm)];
+                isValidCategory = true;
+                targetCategory = originalCaseCategory;
+                console.log(`[DEBUG-ROUTE] Found singular->plural match: "${originalCaseCategory}" for "${categoryName}"`);
+            }
         }
-    }, [category, fetchProducts]);
-
-    const handleAddToCart = useCallback((product: Product) => {
-        addToCart(product);
-        router.push('/cart'); // Redirect to cart page after adding item
-    }, [addToCart, router]);
+    }
+    
+    console.log(`[DEBUG-ROUTE] Is "${categoryName}" a valid category? ${isValidCategory}`);
+    
+    if (!isValidCategory) {
+        console.error(`[ERROR] Invalid category requested: ${categoryName}`);
+        notFound(); // Show 404 for invalid categories
+    }
+    
+    // Use the matched category (either exact or fuzzy matched) for fetching products
+    console.log(`[DEBUG-ROUTE] Fetching products using category: "${targetCategory}"`);
+    const products = await fetchProductsByCategory(targetCategory);
+    console.log(`[DEBUG-ROUTE] Fetched ${products.length} products for category: ${targetCategory}`);
 
     return (
-        <PageContainer 
-            title={category as string} 
-            subtitle="Browse our selection of high-quality components"
-        >
-            <ProductGrid
-                products={products}
-                loading={loading}
-                error={error}
-                onAddToCart={handleAddToCart}
-            />
-        </PageContainer>
+        <Layout>
+            <CategoryPageClient products={products} categoryName={categoryName} />
+        </Layout>
     );
-}
-
-// Main component that wraps CategoryPageContent in Suspense
-export default function CategoryPage() {
-  return (
-    <Suspense fallback={<CategoryPageLoading />}>
-      <CategoryPageContent />
-    </Suspense>
-  );
 }

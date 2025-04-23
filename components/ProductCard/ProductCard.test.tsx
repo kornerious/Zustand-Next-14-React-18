@@ -9,11 +9,19 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-// Mock the cart store
+// Mock the cart store using the selector pattern
 jest.mock('@/store/cartStore', () => ({
-  useCartStore: () => ({
-    isItemInCart: () => false,
-    items: [],
+  useCartStore: jest.fn((selector) => {
+    // Define a minimal state for these tests
+    const state = {
+      isItemInCart: jest.fn(() => false), // Default to false
+      items: [],
+      addToCart: jest.fn(), // Mock other potentially used functions
+      removeFromCart: jest.fn(),
+      clearCart: jest.fn(),
+    };
+    // Execute the selector with the state
+    return selector(state);
   }),
 }));
 
